@@ -1,0 +1,18 @@
+.button-grid {
+    display: flex;
+    gap: 7rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+  
+  .tool {
+    min-width: auto;
+    max-width: 300px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+  
