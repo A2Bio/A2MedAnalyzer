@@ -1,0 +1,59 @@
+name: Deploy Frontend and Backend
+
+on:
+  push:
+    branches:
+      - main  # Будет выполняться при пуше в основную ветку
+
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'  # Выберите нужную версию Node.js
+
+    - name: Install dependencies
+      run: npm install
+      working-directory: ./frontend  # Путь к фронтенд-папке
+
+    - name: Build the frontend
+      run: npm run build
+      working-directory: ./frontend  # Путь к фронтенд-папке
+
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4.3.0
+      with:
+        branch: gh-pages  # Ветка для деплоя
+        folder: frontend/build  # Папка с собранным фронтендом
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+  backend:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'  # Укажи нужную версию Python
+
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+      working-directory: ./backend  # Путь к бэкенд-папке
+
+    - name: Deploy Backend (например, на Heroku)
+      run: |
+        heroku login -i
+        git remote add heroku https://git.heroku.com/YOUR_APP_NAME.git
+        git push heroku main
+      working-directory: ./backend  # Путь к бэкенд-папке
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
