@@ -105,7 +105,7 @@ USE_TZ = True
 # --- Статические файлы ---
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'frontend', 'build', 'static'),
+    os.path.join(BASE_DIR, '../frontend/build/static'),  # поправить путь
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.FileSystemStorage'
