@@ -1,0 +1,56 @@
+.gwas-search {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .search-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  input {
+    width: 80%;
+    padding: 10px;
+    font-size: 16px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  button:disabled {
+    background-color: #ddd;
+  }
+  
+  .error {
+    color: red;
+    margin-top: 10px;
+  }
+  
+  .results ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .results li {
+    margin-bottom: 20px;
+  }
+  
+  .results h3 {
+    margin: 0;
+  }
+  
+  .results p {
+    margin: 5px 0;
+  }
+  
+  a {
+    color: #0066cc;
+    text-decoration: none;
+  }
+  
