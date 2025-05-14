@@ -1,6 +1,6 @@
 from django.urls import path
-from . import views
+from .views import search_gwas_by_trait
 
 urlpatterns = [
-    path('', views.test_gwas, name='test_gwas'),
+    path("search/", search_gwas_by_trait, name="search_gwas_by_trait"),
 ]
