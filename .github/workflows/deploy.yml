@@ -1,59 +1,36 @@
-name: Deploy Frontend and Backend
+name: Deploy to Render
 
 on:
   push:
     branches:
-      - main  # Будет выполняться при пуше в основную ветку
+      - main  # Здесь укажи свою ветку для деплоя
 
 jobs:
-  frontend:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout repository
       uses: actions/checkout@v2
 
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '14'  # Выберите нужную версию Node.js
+        node-version: '14'  # Укажи свою версию Node.js
 
     - name: Install dependencies
-      run: npm install
-      working-directory: ./frontend  # Путь к фронтенд-папке
-
-    - name: Build the frontend
-      run: npm run build
-      working-directory: ./frontend  # Путь к фронтенд-папке
-
-    - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@v4.3.0
-      with:
-        branch: gh-pages  # Ветка для деплоя
-        folder: frontend/build  # Папка с собранным фронтендом
-        token: ${{ secrets.GITHUB_TOKEN }}
-
-  backend:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.8'  # Укажи нужную версию Python
-
-    - name: Install dependencies
-      run: pip install -r requirements.txt
-      working-directory: ./backend  # Путь к бэкенд-папке
-
-    - name: Deploy Backend (например, на Heroku)
       run: |
-        heroku login -i
-        git remote add heroku https://git.heroku.com/YOUR_APP_NAME.git
-        git push heroku main
-      working-directory: ./backend  # Путь к бэкенд-папке
+        cd frontend
+        npm install
+
+    - name: Build frontend
+      run: |
+        cd frontend
+        npm run build
+
+    - name: Push to Render
+      run: |
+        curl -X POST https://api.render.com/v1/services/YOUR_RENDER_SERVICE_ID/deploy \
+          -H "Authorization: Bearer rnd_PVyR6j9D6G8LxfzpFTvW6ncxhx4j"
       env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        RENDER_API_KEY: rnd_PVyR6j9D6G8LxfzpFTvW6ncxhx4j
