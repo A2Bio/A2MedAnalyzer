@@ -30,7 +30,7 @@ jobs:
 
     - name: Push to Render
       run: |
-        curl -X POST https://api.render.com/v1/services/YOUR_RENDER_SERVICE_ID/deploy \
+        curl -X POST https://api.render.com/v1/services/srv-d0ibhv7fte5s73fphqc0/deploy \
           -H "Authorization: Bearer rnd_PVyR6j9D6G8LxfzpFTvW6ncxhx4j"
       env:
         RENDER_API_KEY: rnd_PVyR6j9D6G8LxfzpFTvW6ncxhx4j
