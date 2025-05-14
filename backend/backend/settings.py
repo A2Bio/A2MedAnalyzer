@@ -123,24 +123,4 @@ CORS_ALLOWED_ORIGINS = [
 # Дополнительные настройки для работы на продакшн-среде:
 CSRF_TRUSTED_ORIGINS = [
     'https://a2medanalyzer.onrender.com',
-
-    LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': 'django_debug.log',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-    },
-}
-
-]
+}]
