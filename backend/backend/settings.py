@@ -4,7 +4,7 @@ from pathlib import Path
 # --- Основные настройки ---
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'замени-на-свой-секретный-ключ'
+SECRET_KEY = 'django-insecure-1y6@jhdj+-dbj*fa-v=qt!as*n$tu($ie^8n=ib1&lwi110)$2'
 
 DEBUG = True
 
@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'gwas_api',
     'annotation',
     'visualization',
+    'rest_framework',
     'corsheaders',  # frontend на React
 ]
 
@@ -56,6 +57,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
@@ -98,4 +100,6 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # --- CORS (frontend отдельно) ---
-CORS_ORIGIN_ALLOW_ALL = True  # В разработке можно оставить, потом лучше ограничить
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+]
