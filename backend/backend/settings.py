@@ -10,7 +10,7 @@ PORT = os.environ.get('PORT', 8000)
 
 SECRET_KEY = 'django-insecure-1y6@jhdj+-dbj*fa-v=qt!as*n$tu($ie^8n=ib1&lwi110)$2'
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'a2medanalyzer.onrender.com',  # Публичный домен
