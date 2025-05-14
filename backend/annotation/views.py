@@ -1,4 +1,6 @@
-from django.http import JsonResponse
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 
+@api_view(['GET'])
 def test_annotation(request):
-    return JsonResponse({"message": "GWAS API is working!"})
+    return Response({"message": "Annotation data"})
