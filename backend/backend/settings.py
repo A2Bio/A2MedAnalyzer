@@ -4,6 +4,10 @@ from pathlib import Path
 # --- Основные настройки ---
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+# Устанавливаем порт из переменной окружения, если она задана
+PORT = os.environ.get('PORT', 8000)
+
 SECRET_KEY = 'django-insecure-1y6@jhdj+-dbj*fa-v=qt!as*n$tu($ie^8n=ib1&lwi110)$2'
 
 DEBUG = False
