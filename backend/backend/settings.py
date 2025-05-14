@@ -105,7 +105,8 @@ USE_TZ = True
 # --- Статические файлы ---
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.FileSystemStorage'
+
 
 # --- Ключ по умолчанию ---
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
