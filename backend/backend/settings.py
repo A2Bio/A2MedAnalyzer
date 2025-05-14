@@ -8,7 +8,7 @@ SECRET_KEY = 'django-insecure-1y6@jhdj+-dbj*fa-v=qt!as*n$tu($ie^8n=ib1&lwi110)$2
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['a2medanalyzer.onrender.com']
 
 # --- Приложения ---
 INSTALLED_APPS = [
