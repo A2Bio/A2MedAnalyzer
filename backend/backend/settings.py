@@ -6,9 +6,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-1y6@jhdj+-dbj*fa-v=qt!as*n$tu($ie^8n=ib1&lwi110)$2'
 
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['a2medanalyzer.onrender.com']
+ALLOWED_HOSTS = [
+    'a2medanalyzer.onrender.com',  # Публичный домен
+    'localhost',  # Локальный хост для разработки
+    '127.0.0.1',  # Локальный хост для разработки
+    ]
 
 # --- Приложения ---
 INSTALLED_APPS = [
@@ -29,7 +33,7 @@ INSTALLED_APPS = [
 
 # --- Middleware ---
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',  # если нужен доступ с фронта
+    'corsheaders.middleware.CorsMiddleware', 
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -102,4 +106,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # --- CORS (frontend отдельно) ---
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
+    'https://a2medanalyzer.onrender.com',  # Публичный фронт
+]
+
+# Дополнительные настройки для работы на продакшн-среде:
+CSRF_TRUSTED_ORIGINS = [
+    'https://a2medanalyzer.onrender.com',
 ]
