@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 
 # --- Основные настройки ---
-BASE_DIR = Path(__file__).resolve().parent.parent.parent 
+BASE_DIR = Path(__file__).resolve().parent.parent 
 
 
 # Устанавливаем порт из переменной окружения, если она задана
