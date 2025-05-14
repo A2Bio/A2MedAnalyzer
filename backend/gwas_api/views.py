@@ -14,7 +14,7 @@ from rest_framework import status
 @api_view(['GET'])
 def test_gwas(request):
     # Извлекаем значение параметра 'trait' из строки запроса (например, /api/gwas/?trait=diabetes)
-    trait = request.GET.get('trait')
+    trait = request.GET.get('trait', 'diabetes')  # Значение по умолчанию
     
     # Если параметр не передан, возвращаем ошибку 400 (Bad Request)
     if not trait:
