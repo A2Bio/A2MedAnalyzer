@@ -123,4 +123,4 @@ CORS_ALLOWED_ORIGINS = [
 # Дополнительные настройки для работы на продакшн-среде:
 CSRF_TRUSTED_ORIGINS = [
     'https://a2medanalyzer.onrender.com',
-}]
+]
