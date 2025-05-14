@@ -6,8 +6,6 @@ import Contacts from './pages/Contacts';
 import RotatingText from './blocks/TextAnimations/RotatingText/RotatingText';
 import GooeyNav from './blocks/Components/GooeyNav/GooeyNav';
 
-import { Link } from 'react-router-dom';
-
      // Замените href на to
      const items = [
        { label: "Главная", to: "/home" }, 
