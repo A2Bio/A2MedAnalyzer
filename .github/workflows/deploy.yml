@@ -3,7 +3,7 @@ name: Deploy to Render
 on:
   push:
     branches:
-      - main  # Здесь укажи свою ветку для деплоя
+      - main
 
 jobs:
   deploy:
@@ -16,7 +16,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '14'  # Укажи свою версию Node.js
+        node-version: '23'
 
     - name: Install dependencies
       run: |
