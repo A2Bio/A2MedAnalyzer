@@ -105,9 +105,9 @@ USE_TZ = True
 # --- Статические файлы ---
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, '../frontend/build/static'),  # путь к React-статике
+    os.path.join(BASE_DIR, 'frontend', 'build', 'static'),
 ]
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.FileSystemStorage'
 
 
