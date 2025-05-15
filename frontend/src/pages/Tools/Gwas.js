@@ -25,7 +25,8 @@ const Gwas = () => {
       const data = await response.json();
 
       if (response.ok) {
-        setResults(data);
+        // Извлекаем массив studies из вложенного объекта _embedded
+        setResults(data._embedded?.studies || []);
       } else {
         setError(data.error || 'Ошибка запроса');
       }
@@ -58,16 +59,16 @@ const Gwas = () => {
           <h2>Результаты поиска:</h2>
           <ul>
             {results.map((study) => (
-              <li key={study.id}>
-                <h3>{study.title}</h3>
-                <p><strong>Автор:</strong> {study.author || 'Не указан'}</p>
-                <p><strong>Журнал:</strong> {study.publication}</p>
-                <p><strong>Размер выборки:</strong> {study.initialSampleSize}</p>
-                <p><strong>Платформа:</strong> {study.platform}</p>
-                {study.pubmedId && (
+              <li key={study.accessionId}>
+                <h3>{study.publicationInfo?.title || 'Без названия'}</h3>
+                <p><strong>Автор:</strong> {study.publicationInfo?.author?.fullname || 'Не указан'}</p>
+                <p><strong>Журнал:</strong> {study.publicationInfo?.publication || 'Не указан'}</p>
+                <p><strong>Размер выборки:</strong> {study.initialSampleSize || 'Не указан'}</p>
+                <p><strong>Платформа:</strong> {study.platforms?.[0]?.manufacturer || 'Не указана'}</p>
+                {study.publicationInfo?.pubmedId && (
                   <p>
                     <a
-                      href={`https://pubmed.ncbi.nlm.nih.gov/${study.pubmedId}`}
+                      href={`https://pubmed.ncbi.nlm.nih.gov/${study.publicationInfo.pubmedId}`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
