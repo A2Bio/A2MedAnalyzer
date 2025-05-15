@@ -118,9 +118,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'https://a2medanalyzer.onrender.com',  # Публичный фронт
+    'https://a2bio.github.io'
 ]
 
-# Дополнительные настройки для работы на продакшн-среде:
 CSRF_TRUSTED_ORIGINS = [
     'https://a2medanalyzer.onrender.com',
+    'https://a2bio.github.io',
 ]
