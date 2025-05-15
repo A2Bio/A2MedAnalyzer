@@ -20,7 +20,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     # Приложения
-    'gwas_api',
+    'traits',
     'annotation',
     'visualization',
     'rest_framework',
