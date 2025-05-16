@@ -2,13 +2,21 @@ import os
 from pathlib import Path
 
 # --- Основные настройки ---
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent 
+
+
+# Устанавливаем порт из переменной окружения, если она задана
+PORT = os.environ.get('PORT', 8000)
 
 SECRET_KEY = 'django-insecure-1y6@jhdj+-dbj*fa-v=qt!as*n$tu($ie^8n=ib1&lwi110)$2'
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'a2medanalyzer.onrender.com',  # Публичный домен
+    'localhost',  # Локальный хост для разработки
+    '127.0.0.1',  # Локальный хост для разработки
+    ]
 
 # --- Приложения ---
 INSTALLED_APPS = [
@@ -22,15 +30,16 @@ INSTALLED_APPS = [
     # Приложения
     'traits',
     'annotation',
-    'visualization',
+    'filtrate',
     'rest_framework',
     'corsheaders',  # frontend на React
 ]
 
 # --- Middleware ---
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',  # если нужен доступ с фронта
+    'corsheaders.middleware.CorsMiddleware', 
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -45,7 +54,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, '../frontend/build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -95,6 +104,12 @@ USE_TZ = True
 
 # --- Статические файлы ---
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, '../frontend/build/static'),  # поправить путь
+]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.FileSystemStorage'
+
 
 # --- Ключ по умолчанию ---
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -102,4 +117,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # --- CORS (frontend отдельно) ---
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
+    'https://a2medanalyzer.onrender.com', 
+    'https://a2bio.github.io'
 ]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://a2medanalyzer.onrender.com',
+    'https://a2bio.github.io',
+    'http://localhost:8000'
+]
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

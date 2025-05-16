@@ -7,7 +7,7 @@ from django.core.files.base import ContentFile
 from io import StringIO
 
 @csrf_exempt
-def filtration(request):
+def filtrate(request):
     if request.method == 'POST' and request.FILES.get('file'):
         try:
             tsv_file = request.FILES['file']
