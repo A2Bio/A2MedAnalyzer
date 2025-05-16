@@ -74,7 +74,6 @@ const Filtrate = () => {
   ];  
   return (
     <div className="filtration-container">
-      <h2>Фильтрация</h2>
       <input
         type="file"
         id="file-input"
