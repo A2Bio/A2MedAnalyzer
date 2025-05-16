@@ -1,5 +1,5 @@
 import React from 'react';
-import { UploadOutlined, DownloadOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import { FileTextOutlined, DownloadOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { FloatButton } from 'antd';
 
 const Annotation = () => {
@@ -42,15 +42,15 @@ const Annotation = () => {
       <input
         type="file"
         id="file-input"
-        accept=".csv"
+        accept=".tsv"
         onChange={handleUpload}
         style={{ display: 'none' }}
       />
 
       <FloatButton.Group shape="circle" style={{ insetInlineEnd: 24 }}>
-        <FloatButton icon={<UploadOutlined />} onClick={handleFileInputClick} />
+        <FloatButton icon={<FileTextOutlined />} onClick={handleFileInputClick} />
         <FloatButton icon={<DownloadOutlined />} onClick={() => alert('Скачивание доступно после обработки')} />
-        <FloatButton icon={<QuestionCircleOutlined />} />
+        <FloatButton icon={<QuestionCircleOutlined />} type="primary" />
       </FloatButton.Group>
     </>
   );
