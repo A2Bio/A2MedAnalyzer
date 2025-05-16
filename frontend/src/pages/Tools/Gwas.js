@@ -64,6 +64,7 @@ const Gwas = () => {
     <div style={{ padding: '2rem', maxWidth: '1000px', margin: '0 auto' }}>
       <form onSubmit={(e) => { e.preventDefault(); handleSearch(); }} style={{ marginBottom: '1rem' }}>
         <input
+          class="input"
           type="text"
           value={trait}
           onChange={(e) => setTrait(e.target.value)}
