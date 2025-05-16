@@ -1,0 +1,19 @@
+.filtration-container {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  .filtration-container h2 {
+    margin-bottom: 20px;
+  }
+  
+  .table-container {
+    margin-top: 30px;
+  }
+  
+  .no-data {
+    margin-top: 20px;
+    color: #888;
+    text-align: center;
+  }
