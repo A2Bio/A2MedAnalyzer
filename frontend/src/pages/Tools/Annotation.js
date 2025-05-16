@@ -50,7 +50,7 @@ const Annotation = () => {
       <FloatButton.Group shape="circle" style={{ insetInlineEnd: 24 }}>
         <FloatButton icon={<UploadOutlined />} onClick={handleFileInputClick} />
         <FloatButton icon={<DownloadOutlined />} onClick={() => alert('Скачивание доступно после обработки')} />
-        <FloatButton.BackTop visibilityHeight={0} />
+        <FloatButton icon={<QuestionCircleOutlined />} />
       </FloatButton.Group>
     </>
   );
