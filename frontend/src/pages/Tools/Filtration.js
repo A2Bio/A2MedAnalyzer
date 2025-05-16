@@ -11,7 +11,7 @@ const Filtration = () => {
         formData.append('file', file);
     
         try {
-          const response = await fetch('https://a2medanalyzer.onrender.com/api/filtration/', {
+          const response = await fetch('https://a2medanalyzer.onrender.com/api/filtrate/', {
             method: 'POST',
             body: formData,
           });
