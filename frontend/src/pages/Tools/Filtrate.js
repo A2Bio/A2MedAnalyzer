@@ -2,7 +2,7 @@ import React from 'react';
 import { QuestionCircleOutlined, SyncOutlined } from '@ant-design/icons';
 import { FloatButton } from 'antd';
 
-const Filtration = () => {
+const Filtrate = () => {
     const handleUpload = async (event) => {
         const file = event.target.files[0];
         if (!file) return;
