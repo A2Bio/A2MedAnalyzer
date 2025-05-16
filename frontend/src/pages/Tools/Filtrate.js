@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Table, FloatButton, message, Checkbox, Dropdown, Button } from 'antd';
-import { FileTextOutlined, DownloadOutlined, SettingOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import { Table, FloatButton, message, Checkbox } from 'antd';
+import { FileTextOutlined, DownloadOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import './Filtrate.css';
 
 const Filtrate = () => {
@@ -21,7 +21,10 @@ const Filtrate = () => {
 
   const handleUpload = async (event) => {
     const file = event.target.files[0];
-    if (!file) return;
+    if (!file) {
+      message.error('Выберите TSV-файл');
+      return;
+    }
 
     setLoading(true);
     const formData = new FormData();
@@ -67,55 +70,60 @@ const Filtrate = () => {
     }
   };
 
+  const generateFilters = (dataIndex) => {
+    const uniqueValues = [...new Set(tableData.map(item => item[dataIndex]))].filter(Boolean);
+    return uniqueValues.map(val => ({ text: val, value: val }));
+  };
+
   const allColumns = [
     {
       title: 'Ген',
       dataIndex: 'mappedGenes',
       key: 'mappedGenes',
+      filters: generateFilters('mappedGenes'),
+      onFilter: (value, record) => record.mappedGenes === value,
       sorter: (a, b) => (a.mappedGenes || '').localeCompare(b.mappedGenes || ''),
     },
     {
       title: 'Аллель',
       dataIndex: 'riskAllele',
       key: 'riskAllele',
-      sorter: (a, b) => (a.riskAllele || '').localeCompare(b.riskAllele || ''),
+      filters: generateFilters('riskAllele'),
+      onFilter: (value, record) => record.riskAllele === value,
     },
     {
       title: 'Частота',
       dataIndex: 'riskFrequency',
       key: 'riskFrequency',
+      filters: generateFilters('riskFrequency'),
+      onFilter: (value, record) => record.riskFrequency === value,
       sorter: (a, b) => parseFloat(a.riskFrequency || 0) - parseFloat(b.riskFrequency || 0),
     },
     {
       title: 'Кол-во генов',
       dataIndex: 'Count_Genes',
       key: 'Count_Genes',
-      sorter: (a, b) => (a.Count_Genes || 0) - (b.Count_Genes || 0),
+      filters: generateFilters('Count_Genes'),
+      onFilter: (value, record) => record.Count_Genes === value,
+      sorter: (a, b) => parseInt(a.Count_Genes || 0) - parseInt(b.Count_Genes || 0),
     },
     {
       title: 'Кол-во аллелей',
       dataIndex: 'Count_Alleles',
       key: 'Count_Alleles',
-      sorter: (a, b) => (a.Count_Alleles || 0) - (b.Count_Alleles || 0),
+      filters: generateFilters('Count_Alleles'),
+      onFilter: (value, record) => record.Count_Alleles === value,
+      sorter: (a, b) => parseInt(a.Count_Alleles || 0) - parseInt(b.Count_Alleles || 0),
     },
   ];
 
-  const filteredColumns = allColumns.filter(col => visibleColumns[col.key]);
+  const filteredColumns = allColumns.filter(col => visibleColumns[col.dataIndex]);
 
-  const columnToggleMenu = {
-    items: allColumns.map(col => ({
-      key: col.key,
-      label: (
-        <Checkbox
-          checked={visibleColumns[col.key]}
-          onChange={() =>
-            setVisibleColumns(prev => ({ ...prev, [col.key]: !prev[col.key] }))
-          }
-        >
-          {col.title}
-        </Checkbox>
-      ),
-    })),
+  const toggleColumn = (colKey) => {
+    setVisibleColumns(prev => ({
+      ...prev,
+      [colKey]: !prev[colKey],
+    }));
   };
 
   return (
@@ -129,44 +137,13 @@ const Filtrate = () => {
       />
 
       <FloatButton.Group shape="circle" style={{ insetInlineEnd: 24 }}>
-        <FloatButton
-          icon={<FileTextOutlined />}
-          onClick={handleFileInputClick}
-          tooltip="Загрузить TSV-файл"
-          disabled={loading}
-        />
-        <FloatButton
-          icon={<DownloadOutlined />}
-          onClick={handleDownload}
-          tooltip="Скачать гены"
-          disabled={!csvUrl || loading}
-        />
-        <FloatButton
-          icon={<QuestionCircleOutlined />}
-          type="primary"
-          tooltip="Загрузите .tsv-файл для фильтрации"
-        />
+        <FloatButton icon={<FileTextOutlined />} onClick={handleFileInputClick} tooltip="Загрузить TSV-файл" disabled={loading} />
+        <FloatButton icon={<DownloadOutlined />} onClick={handleDownload} tooltip="Скачать гены" disabled={!csvUrl || loading} />
+        <FloatButton icon={<QuestionCircleOutlined />} type="primary" tooltip="Загрузите .tsv-файл для фильтрации" />
       </FloatButton.Group>
 
-      <div className="description-block">
-        <p className="description">
-          Загрузите ваш <strong>.tsv</strong>-файл с данными генетических вариаций, чтобы отфильтровать информацию по частоте, аллелям и другим характеристикам. После обработки вы сможете:
-        </p>
-        <ul className="features-list">
-          <li>🔍 Изучить упомянутые гены и аллели</li>
-          <li>📊 Сортировать данные по частоте и количеству встречаемости</li>
-          <li>🛠 Настроить отображение нужных столбцов</li>
-          <li>📥 Скачать отфильтрованный результат</li>
-        </ul>
-      </div>
-
       {tableData.length > 0 ? (
-        <>
-          <div className="table-controls">
-            <Dropdown menu={columnToggleMenu} placement="bottomLeft">
-              <Button icon={<SettingOutlined />}>Настроить столбцы</Button>
-            </Dropdown>
-          </div>
+        <div className="content-with-sidebar">
           <div className="table-container">
             <Table
               dataSource={tableData}
@@ -177,7 +154,21 @@ const Filtrate = () => {
               loading={loading}
             />
           </div>
-        </>
+          <div className="settings-panel">
+            <h3>Настройки столбцов</h3>
+            <div className="checkbox-group">
+              {allColumns.map(col => (
+                <Checkbox
+                  key={col.key}
+                  checked={visibleColumns[col.dataIndex]}
+                  onChange={() => toggleColumn(col.dataIndex)}
+                >
+                  {col.title}
+                </Checkbox>
+              ))}
+            </div>
+          </div>
+        </div>
       ) : (
         <p className="no-data">Загрузите TSV-файл для отображения результатов</p>
       )}
