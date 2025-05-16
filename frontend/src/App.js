@@ -4,7 +4,7 @@ import Home from './pages/Home';
 import Contacts from './pages/Contacts';
 import Gwas from './pages/Tools/Gwas';
 import Annotation from './pages/Tools/Annotation';
-import Viz from './pages/Tools/Viz';
+import Filtrate from './pages/Tools/Filtrate';
 
 import RotatingText from './blocks/TextAnimations/RotatingText/RotatingText';
 import GooeyNav from './blocks/Components/GooeyNav/GooeyNav';
@@ -72,7 +72,7 @@ function App() {
             <Route path="/contacts" element={<Contacts />} />
             <Route path="/gwas" element={<Gwas />} />
             <Route path="/annotation" element={<Annotation />} />
-            <Route path="/visualization" element={<Viz />} />
+            <Route path="/filtrate" element={<Filtrate />} />
           </Routes>
         </div>
       </div>
