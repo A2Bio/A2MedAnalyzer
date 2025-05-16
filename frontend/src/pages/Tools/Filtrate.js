@@ -149,7 +149,6 @@ const Filtrate = () => {
       </FloatButton.Group>
 
       <div className="description-block">
-        <h2>GWAS-фильтрация данных</h2>
         <p className="description">
           Загрузите ваш <strong>.tsv</strong>-файл с данными генетических вариаций, чтобы отфильтровать информацию по частоте, аллелям и другим характеристикам. После обработки вы сможете:
         </p>
