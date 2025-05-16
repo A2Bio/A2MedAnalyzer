@@ -1,5 +1,5 @@
 import React from 'react';
-import { UploadOutlined, DownloadOutlined } from '@ant-design/icons';
+import { UploadOutlined, DownloadOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { FloatButton } from 'antd';
 
 const Annotation = () => {
@@ -11,7 +11,7 @@ const Annotation = () => {
     formData.append('file', file);
 
     try {
-      const response = await fetch('`https://a2medanalyzer.onrender.com/api/annotation/', {
+      const response = await fetch('https://a2medanalyzer.onrender.com/api/annotation/', {
         method: 'POST',
         body: formData,
       });
