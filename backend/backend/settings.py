@@ -22,7 +22,7 @@ INSTALLED_APPS = [
     # Приложения
     'traits',
     'annotation',
-    'visualization',
+    'filtrate',
     'rest_framework',
     'corsheaders',  # frontend на React
 ]
@@ -103,3 +103,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
 ]
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
