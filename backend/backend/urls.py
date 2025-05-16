@@ -9,5 +9,12 @@ urlpatterns = [
     path('api/traits/', include('traits.urls')),
     path('api/annotation/', include('annotation.urls')),
     path('api/filtrate/', include('filtrate.urls')),
-    re_path(r'^.*$', TemplateView.as_view(template_name='index.html')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+
+# Обслуживание медиафайлов
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# React SPA для остальных маршрутов, исключая /media/
+urlpatterns += [
+    re_path(r'^(?!media/).*$', TemplateView.as_view(template_name='index.html')),
+]
