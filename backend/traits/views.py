@@ -1,11 +1,13 @@
 import requests
-from django.http import JsonResponse
+import json
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_GET
 
 @require_GET
 def studies_by_disease_trait(request, trait):
     if not trait or len(trait) < 2:
-        return JsonResponse({"error": "Parameter 'trait' is required and must be at least 2 characters."}, status=400)
+        data = {"error": "Parameter 'trait' is required and must be at least 2 characters."}
+        return JsonResponse(data, status=400)
 
     base_url = "https://www.ebi.ac.uk/gwas/rest/api/studies/search/findByDiseaseTrait"
     params = {"diseaseTrait": trait}
@@ -18,10 +20,22 @@ def studies_by_disease_trait(request, trait):
     except requests.ConnectionError:
         return JsonResponse({"error": "Connection error to GWAS API."}, status=502)
     except requests.HTTPError as e:
-        # Можно дополнительно разбирать статус ответа
         return JsonResponse({"error": f"GWAS API returned HTTP error: {e.response.status_code}."}, status=502)
     except requests.RequestException as e:
         return JsonResponse({"error": f"Error communicating with GWAS API: {str(e)}"}, status=502)
 
-    # Всё успешно
-    return JsonResponse(r.json())
+    result_json = r.json()
+
+    # Проверяем параметр ?download=true
+    download = request.GET.get('download', '').lower() == 'true'
+    if download:
+        response = HttpResponse(
+            json.dumps(result_json, indent=2),
+            content_type='application/json'
+        )
+        response['Content-Disposition'] = f'attachment; filename="{trait}_studies.json"'
+        return response
+    else:
+        return JsonResponse(result_json, safe=False)
+
+
