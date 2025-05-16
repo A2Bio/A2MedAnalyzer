@@ -1,13 +1,20 @@
 import React from 'react';
+import { QuestionCircleOutlined, SyncOutlined } from '@ant-design/icons';
+import { FloatButton } from 'antd';
 
-const Annotation = () => {
-    return (
-      <div>
-        <h1>Аннотация</h1>
-        {/* твой код */}
-      </div>
-    );
-  };
-  
-  export default Annotation;
-  
+const Annotation = () => (
+  <>
+    <FloatButton.Group shape="circle" style={{ insetInlineEnd: 24 }}>
+      <FloatButton icon={<QuestionCircleOutlined />} />
+      <FloatButton />
+      <FloatButton.BackTop visibilityHeight={0} />
+    </FloatButton.Group>
+    <FloatButton.Group shape="square" style={{ insetInlineEnd: 94 }}>
+      <FloatButton icon={<QuestionCircleOutlined />} />
+      <FloatButton />
+      <FloatButton icon={<SyncOutlined />} />
+      <FloatButton.BackTop visibilityHeight={0} />
+    </FloatButton.Group>
+  </>
+);
+export default Annotation;
