@@ -1,12 +1,13 @@
 import React from 'react';
 
 const Viz = () => {
-    return (
-      <div>
-        <h1>Визуализация</h1>
-        {/* твой код */}
-      </div>
-    );
+  <>
+    <FloatButton.Group shape="circle" style={{ insetInlineEnd: 24 }}>
+      <FloatButton icon={<QuestionCircleOutlined />} />
+      <FloatButton />
+      <FloatButton.BackTop visibilityHeight={0} />
+    </FloatButton.Group>
+  </>
   };
   
   export default Viz;
