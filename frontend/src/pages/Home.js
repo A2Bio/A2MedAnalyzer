@@ -48,7 +48,7 @@ const Home = () => {
           </button>
         </Link>
 
-        <Link to="/visualization">
+        <Link to="/filtrate">
           <button>
             <div className="tool">
               <h2>📊 GWAS-фильтрация</h2>
