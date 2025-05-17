@@ -143,6 +143,7 @@ const Filtrate = () => {
       </FloatButton.Group>
       
       <div className="description-block">
+        <h2>GWAS-исследования</h2>
         <p className="description">
           Загрузите ваш <strong>.tsv</strong>-файл с данными генетических вариаций, чтобы отфильтровать информацию по частоте, аллелям и другим характеристикам. После обработки вы сможете:
         </p>
@@ -155,32 +156,25 @@ const Filtrate = () => {
       </div>
 
       {tableData.length > 0 ? (
-        <div className="content-with-sidebar">
-          <div className="table-container">
-            <Table
-              dataSource={tableData}
-              columns={filteredColumns}
-              rowKey={(record, index) => index}
-              bordered
-              pagination={{ pageSize: 10 }}
-              loading={loading}
-            />
+        <>
+          <div className="table-controls">
+            <Dropdown menu={columnToggleMenu} placement="bottomLeft">
+              <Button icon={<SettingOutlined />}>Настроить столбцы</Button>
+            </Dropdown>
           </div>
-          <div className="settings-panel">
-            <h3>Настройки столбцов</h3>
-            <div className="checkbox-group">
-              {allColumns.map(col => (
-                <Checkbox
-                  key={col.key}
-                  checked={visibleColumns[col.dataIndex]}
-                  onChange={() => toggleColumn(col.dataIndex)}
-                >
-                  {col.title}
-                </Checkbox>
-              ))}
+          <div className="content-with-sidebar">
+            <div className="table-container">
+              <Table
+                dataSource={tableData}
+                columns={filteredColumns}
+                rowKey={(record, index) => index}
+                bordered
+                pagination={{ pageSize: 10 }}
+                loading={loading}
+              />
             </div>
           </div>
-        </div>
+        </>
       ) : (
         <p className="no-data">Загрузите TSV-файл для отображения результатов</p>
       )}
