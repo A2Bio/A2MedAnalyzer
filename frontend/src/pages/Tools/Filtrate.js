@@ -119,6 +119,27 @@ const Filtrate = () => {
 
   const filteredColumns = allColumns.filter(col => visibleColumns[col.dataIndex]);
 
+  // Меню с чекбоксами — показываем только если есть данные
+  const menu = (
+    <Menu>
+      {allColumns.map(col => (
+        <Menu.Item key={col.key}>
+          <Checkbox
+            checked={visibleColumns[col.dataIndex]}
+            onChange={() => {
+              setVisibleColumns(prev => ({
+                ...prev,
+                [col.dataIndex]: !prev[col.dataIndex],
+              }));
+            }}
+          >
+            {col.title}
+          </Checkbox>
+        </Menu.Item>
+      ))}
+    </Menu>
+  );
+
   return (
     <div className="filtration-container">
       <input
@@ -136,9 +157,12 @@ const Filtrate = () => {
       </FloatButton.Group>
 
       <div style={{ marginBottom: 16 }}>
-        <Dropdown overlay={menu} trigger={['click']} placement="bottomLeft" >
-          <Button icon={<SettingOutlined />}>Настройка столбцов</Button>
-        </Dropdown>
+        {/* Показать Dropdown с меню только если есть данные */}
+        {tableData.length > 0 && (
+          <Dropdown overlay={menu} trigger={['click']} placement="bottomLeft" >
+            <Button icon={<SettingOutlined />}>Настройка столбцов</Button>
+          </Dropdown>
+        )}
       </div>
 
       <div className="description-block">
@@ -155,36 +179,16 @@ const Filtrate = () => {
       </div>
 
       {tableData.length > 0 ? (
-        <>
-          {/* Меню с чекбоксами для выбора столбцов */}
-          <Menu>
-            {allColumns.map(col => (
-              <Menu.Item key={col.key}>
-                <Checkbox
-                  checked={visibleColumns[col.dataIndex]}
-                  onChange={() => {
-                    setVisibleColumns(prev => ({
-                      ...prev,
-                      [col.dataIndex]: !prev[col.dataIndex],
-                    }));
-                  }}
-                >
-                  {col.title}
-                </Checkbox>
-              </Menu.Item>
-            ))}
-          </Menu>
-          <div className="table-container">
-            <Table
-              dataSource={tableData}
-              columns={filteredColumns}
-              rowKey={(record, index) => index}
-              bordered
-              pagination={{ pageSize: 10 }}
-              loading={loading}
-            />
-          </div>
-        </>
+        <div className="table-container">
+          <Table
+            dataSource={tableData}
+            columns={filteredColumns}
+            rowKey={(record, index) => index}
+            bordered
+            pagination={{ pageSize: 10 }}
+            loading={loading}
+          />
+        </div>
       ) : (
         <p className="no-data">Загрузите TSV-файл для отображения результатов</p>
       )}
