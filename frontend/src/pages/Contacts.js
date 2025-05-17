@@ -26,31 +26,6 @@ const Contacts = () => {
 
   return (
     <div className="contacts-container">
-      {/* Фон с ДНК */}
-      <div className="dna-background">
-        <svg className="dna-svg" viewBox="0 0 1400 800" preserveAspectRatio="xMidYMid meet">
-          <path
-            d="M200,400 C300,250 500,550 700,400 C900,250 1100,550 1200,400"
-            stroke="#0077B6"
-            strokeWidth="5"
-            fill="none"
-            opacity="0.3"
-            className="dna-strand"
-          />
-          <path
-            d="M200,400 C300,550 500,250 700,400 C900,550 1100,250 1200,400"
-            stroke="#0077B6"
-            strokeWidth="5"
-            fill="none"
-            opacity="0.3"
-            className="dna-strand"
-          />
-          <circle cx="300" cy="400" r="6" fill="#0077B6" className="dna-particle" />
-          <circle cx="700" cy="400" r="6" fill="#0077B6" className="dna-particle" />
-          <circle cx="1100" cy="400" r="6" fill="#0077B6" className="dna-particle" />
-        </svg>
-      </div>
-
       <div className="contacts-content">
         <h1 className="title">Контакты A2MedAnalyzer</h1>
         <p className="description">
