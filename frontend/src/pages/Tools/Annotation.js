@@ -138,10 +138,8 @@ const Annotation = () => {
 
       {imageUrls.length > 0 ? (
         <div className="image-results">
-          <h3>Результаты аннотации</h3>
           {imageUrls.map((img, index) => (
             <div key={index} className="image-item">
-              <h4>{img.name}</h4>
               <img src={img.url} alt={img.name} className="result-image" />
               <button
                 className="download-button"
