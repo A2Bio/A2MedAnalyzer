@@ -2,6 +2,8 @@ import React from 'react';
 import { Button, message, Avatar } from 'antd';
 import { GithubOutlined, SendOutlined } from '@ant-design/icons';
 import './Contacts.css';
+import Alina from '../../public/images/Alina';
+import Lina from '../../public/images/Lina';
 
 const Contacts = () => {
   const handleLinkClick = (platform) => {
@@ -13,13 +15,13 @@ const Contacts = () => {
     {
       name: 'Ангелина',
       role: 'Фронтенд, UI/UX, визуальные компоненты',
-      photo: '/images/Лина.jpg',
+      photo: Lina,
       telegram: 'https://t.me/gnom_genome',
     },
     {
       name: 'Алина',
       role: 'Бэкенд, обработка данных, API и биоинформатика',
-      photo: '/images/Алина.jpg',
+      photo: Alina,
       telegram: 'https://t.me/your_alin',
     },
   ];

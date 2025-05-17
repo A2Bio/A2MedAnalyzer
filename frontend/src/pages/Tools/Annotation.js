@@ -112,7 +112,9 @@ const Annotation = () => {
           showIcon
           style={{ marginTop: 24 }}
         />
-        {loading && <Loader />}
+        {loading && (
+          <div style={{height:'50px', margin:'20px 20px 20px 20px'}}> <Loader /> </div>
+          )}
       </div>
       <input
         type="file"

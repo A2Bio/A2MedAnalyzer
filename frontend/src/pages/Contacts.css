@@ -29,7 +29,7 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    text-shadow: 0 2px 8px rgba(104, 61, 148, 0.4);
+    text-shadow: 0 2px 8px #ac7ae0;
     animation: titleGlow 2s infinite alternate;
   }
    
