@@ -11,6 +11,9 @@ const Annotation = () => {
   const API_URL = process.env.NODE_ENV === 'production'
     ? 'https://a2medanalyzer.onrender.com/api/annotation/'
     : 'http://localhost:8000/api/annotation/';
+  const BASE_URL = process.env.NODE_ENV === 'production'
+    ? 'https://a2medanalyzer.onrender.com'
+    : 'http://localhost:8000';
 
   const handleUpload = async (event) => {
     const file = event.target.files[0];
@@ -20,17 +23,19 @@ const Annotation = () => {
     }
 
     setLoading(true);
-    setImageUrls([]); // Очищаем предыдущие изображения
+    setImageUrls([]);
     const formData = new FormData();
     formData.append('file', file);
 
     try {
+      console.log('Отправка файла на:', API_URL);
       const response = await fetch(API_URL, {
         method: 'POST',
         body: formData,
       });
 
       const data = await response.json();
+      console.log('Ответ от /api/annotation/:', data);
 
       if (data.status === 'success') {
         setImageUrls(data.image_urls || []);
@@ -47,17 +52,70 @@ const Annotation = () => {
   };
 
   const handleFileInputClick = () => {
+    console.log('Клик по кнопке загрузки');
     document.getElementById('file-input').click();
   };
 
-  const handleDownload = (url, name) => {
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = name;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const handleDownload = async (url, name) => {
+    console.log('Попытка скачать:', { url, name });
+    const downloadUrl = url.startsWith('http') ? url : `${BASE_URL}${url}`;
+    console.log('Полный URL для скачивания:', downloadUrl);
+
+    // Попробуем fetch без Cache-Control
+    try {
+      const response = await fetch(downloadUrl, {
+        method: 'GET',
+        mode: 'cors',
+        credentials: 'same-origin',
+      });
+      console.log('Статус ответа:', response.status, response.statusText, {
+        headers: Object.fromEntries(response.headers.entries()),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Ошибка HTTP: ${response.status} ${response.statusText}`);
+      }
+
+      const blob = await response.blob();
+      console.log('Blob получен:', { type: blob.type, size: blob.size });
+
+      if (!blob.type.includes('image')) {
+        throw new Error(`Неверный тип файла: ${blob.type}`);
+      }
+
+      const blobUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = name;
+      document.body.appendChild(link);
+      link.click();
+      console.log('Скачивание инициировано для:', name);
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+      message.success(`Файл ${name} скачан`);
+    } catch (error) {
+      console.error('Ошибка fetch:', error);
+      message.warning(`Fetch не сработал: ${error.message}. Пробуем альтернативный способ.`);
+
+      // Fallback: используем <a download>, как в Filtrate.js
+      try {
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.download = name;
+        document.body.appendChild(link);
+        link.click();
+        console.log('Альтернативное скачивание инициировано для:', name);
+        document.body.removeChild(link);
+        message.success(`Файл ${name} скачан (альтернативный способ)`);
+      } catch (fallbackError) {
+        console.error('Ошибка альтернативного скачивания:', fallbackError);
+        message.error(`Не удалось скачать ${name}: ${fallbackError.message}`);
+      }
+    }
   };
+
+  console.log('Текущее состояние imageUrls:', imageUrls);
+  console.log('Состояние loading:', loading);
 
   return (
     <div className="annotation-container">
@@ -93,7 +151,10 @@ const Annotation = () => {
               <img src={img.url} alt={img.name} className="result-image" />
               <button
                 className="download-button"
-                onClick={() => handleDownload(img.url, img.name)}
+                onClick={() => {
+                  console.log('Клик по кнопке Скачать для:', img.name);
+                  handleDownload(img.url, img.name);
+                }}
                 disabled={loading}
               >
                 <DownloadOutlined /> Скачать
