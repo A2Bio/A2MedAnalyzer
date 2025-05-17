@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Table, FloatButton, message, Checkbox } from 'antd';
-import { FileTextOutlined, DownloadOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import { Table, FloatButton, message, Dropdown, Menu, Checkbox, Button } from 'antd';
+import { FileTextOutlined, DownloadOutlined, QuestionCircleOutlined, SettingOutlined } from '@ant-design/icons';
 import './Filtrate.css';
 
 const Filtrate = () => {
@@ -119,12 +119,26 @@ const Filtrate = () => {
 
   const filteredColumns = allColumns.filter(col => visibleColumns[col.dataIndex]);
 
-  const toggleColumn = (colKey) => {
-    setVisibleColumns(prev => ({
-      ...prev,
-      [colKey]: !prev[colKey],
-    }));
-  };
+  // Меню с чекбоксами для выбора столбцов
+  const menu = (
+    <Menu>
+      {allColumns.map(col => (
+        <Menu.Item key={col.key}>
+          <Checkbox
+            checked={visibleColumns[col.dataIndex]}
+            onChange={() => {
+              setVisibleColumns(prev => ({
+                ...prev,
+                [col.dataIndex]: !prev[col.dataIndex],
+              }));
+            }}
+          >
+            {col.title}
+          </Checkbox>
+        </Menu.Item>
+      ))}
+    </Menu>
+  );
 
   return (
     <div className="filtration-container">
@@ -136,12 +150,18 @@ const Filtrate = () => {
         style={{ display: 'none' }}
       />
 
-      <FloatButton.Group shape="circle" style={{ insetInlineEnd: 24 }}>
+      <FloatButton.Group shape="circle" style={{ insetInlineEnd: 24, marginBottom: 12 }}>
         <FloatButton icon={<FileTextOutlined />} onClick={handleFileInputClick} tooltip="Загрузить TSV-файл" disabled={loading} />
         <FloatButton icon={<DownloadOutlined />} onClick={handleDownload} tooltip="Скачать гены" disabled={!csvUrl || loading} />
         <FloatButton icon={<QuestionCircleOutlined />} type="primary" tooltip="Загрузите .tsv-файл для фильтрации" />
       </FloatButton.Group>
-      
+
+      <div style={{ marginBottom: 16 }}>
+        <Dropdown overlay={menu} trigger={['click']} placement="bottomLeft" >
+          <Button icon={<SettingOutlined />}>Настройка столбцов</Button>
+        </Dropdown>
+      </div>
+
       <div className="description-block">
         <h2>GWAS-исследования</h2>
         <p className="description">
@@ -156,25 +176,16 @@ const Filtrate = () => {
       </div>
 
       {tableData.length > 0 ? (
-        <>
-          <div className="table-controls">
-            <Dropdown menu={columnToggleMenu} placement="bottomLeft">
-              <Button icon={<SettingOutlined />}>Настроить столбцы</Button>
-            </Dropdown>
-          </div>
-          <div className="content-with-sidebar">
-            <div className="table-container">
-              <Table
-                dataSource={tableData}
-                columns={filteredColumns}
-                rowKey={(record, index) => index}
-                bordered
-                pagination={{ pageSize: 10 }}
-                loading={loading}
-              />
-            </div>
-          </div>
-        </>
+        <div className="table-container">
+          <Table
+            dataSource={tableData}
+            columns={filteredColumns}
+            rowKey={(record, index) => index}
+            bordered
+            pagination={{ pageSize: 10 }}
+            loading={loading}
+          />
+        </div>
       ) : (
         <p className="no-data">Загрузите TSV-файл для отображения результатов</p>
       )}
