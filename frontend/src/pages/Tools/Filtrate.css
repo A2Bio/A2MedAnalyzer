@@ -55,3 +55,29 @@
 .features-list li {
   margin-bottom: 6px;
 }
+
+/* Общий стиль фиолетовой кнопки */
+.purple-button {
+  color: white;
+  border: 2px solid #8707ff;
+  border-radius: 10px;
+  padding: 10px 25px;
+  background: transparent;
+  transition: box-shadow 0.3s ease;
+}
+
+.purple-button:hover {
+  box-shadow: 0 0 10px #8707ff;
+}
+
+/* Для активного состояния */
+.purple-button:active {
+  box-shadow: 2px 2px 15px #8707ff inset;
+}
+
+/* Стилизация FloatButton через обёртку */
+.floating-btn {
+  background-color: transparent !important;
+  border: 2px solid #8707ff !important;
+  color: #8707ff !important;
+}

@@ -1,4 +1,6 @@
+// Gwas.js
 import React, { useState } from 'react';
+import './Gwas.css';
 
 const Gwas = () => {
   const [trait, setTrait] = useState('');
@@ -41,8 +43,7 @@ const Gwas = () => {
                 ...study,
                 snps: snps.filter(Boolean),
               };
-            } catch (err) {
-              console.error("Ошибка при получении SNP для", study.accessionId, err);
+            } catch {
               return { ...study, snps: [] };
             }
           })
@@ -52,8 +53,7 @@ const Gwas = () => {
       } else {
         setError('Не найдено исследований по введённому признаку');
       }
-    } catch (err) {
-      console.error(err);
+    } catch {
       setError('Ошибка соединения с сервером');
     } finally {
       setLoading(false);
@@ -61,76 +61,52 @@ const Gwas = () => {
   };
 
   return (
-    <div style={{ padding: '2rem', maxWidth: '1000px', margin: '0 auto' }}>
-      <form onSubmit={(e) => { e.preventDefault(); handleSearch(); }} style={{ marginBottom: '1rem' }}>
+    <div className="gwas-wrapper">
+      <form onSubmit={(e) => { e.preventDefault(); handleSearch(); }} className="search-form">
         <input
-          class="input"
+          className="custom-input"
           type="text"
           value={trait}
           onChange={(e) => setTrait(e.target.value)}
           placeholder="Введите признак (например, obesity)"
-          style={{
-            padding: '10px',
-            width: '60%',
-            fontSize: '16px',
-            borderRadius: '8px',
-            border: '1px solid #ccc',
-            marginRight: '10px'
-          }}
         />
-        <button
-          type="submit"
-          disabled={loading}
-          style={{
-            padding: '10px 20px',
-            fontSize: '16px',
-            borderRadius: '8px',
-            backgroundColor: '#007bff',
-            color: 'white',
-            border: 'none',
-            cursor: 'pointer'
-          }}
-        >
+        <button type="submit" disabled={loading} className="custom-button">
           {loading ? 'Загрузка...' : 'Поиск'}
         </button>
       </form>
 
-      {error && <div style={{ color: 'red', marginBottom: '1rem' }}>{error}</div>}
+      {error && <div className="error-message">{error}</div>}
 
       {results.length > 0 && (
-        <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '14px' }}>
+        <div className="results-table-wrapper">
+          <table className="results-table">
             <thead>
-              <tr style={{ backgroundColor: '#f2f2f2' }}>
-                <th style={thStyle}>Название</th>
-                <th style={thStyle}>Автор</th>
-                <th style={thStyle}>Журнал</th>
-                <th style={thStyle}>Выборка</th>
-                <th style={thStyle}>Платформа</th>
-                <th style={thStyle}>SNPs</th>
-                <th style={thStyle}>PubMed</th>
+              <tr>
+                <th>Название</th>
+                <th>Автор</th>
+                <th>Журнал</th>
+                <th>Выборка</th>
+                <th>Платформа</th>
+                <th>SNPs</th>
+                <th>PubMed</th>
               </tr>
             </thead>
             <tbody>
               {results.map((study) => (
                 <tr key={study.accessionId}>
-                  <td style={tdStyle}>{study.publicationInfo?.title || '—'}</td>
-                  <td style={tdStyle}>{study.publicationInfo?.author?.fullname || '—'}</td>
-                  <td style={tdStyle}>{study.publicationInfo?.publication || '—'}</td>
-                  <td style={tdStyle}>{study.initialSampleSize || '—'}</td>
-                  <td style={tdStyle}>{study.platforms?.[0]?.manufacturer || '—'}</td>
-                  <td style={tdStyle}>
+                  <td>{study.publicationInfo?.title || '—'}</td>
+                  <td>{study.publicationInfo?.author?.fullname || '—'}</td>
+                  <td>{study.publicationInfo?.publication || '—'}</td>
+                  <td>{study.initialSampleSize || '—'}</td>
+                  <td>{study.platforms?.[0]?.manufacturer || '—'}</td>
+                  <td>
                     {study.snps?.length > 0
                       ? study.snps.slice(0, 5).join(', ') + (study.snps.length > 5 ? '...' : '')
                       : '—'}
                   </td>
-                  <td style={tdStyle}>
+                  <td>
                     {study.publicationInfo?.pubmedId ? (
-                      <a
-                        href={`https://pubmed.ncbi.nlm.nih.gov/${study.publicationInfo.pubmedId}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
+                      <a href={`https://pubmed.ncbi.nlm.nih.gov/${study.publicationInfo.pubmedId}`} target="_blank" rel="noopener noreferrer">
                         Открыть
                       </a>
                     ) : '—'}
@@ -143,20 +119,6 @@ const Gwas = () => {
       )}
     </div>
   );
-};
-
-// Стили
-const thStyle = {
-  padding: '10px',
-  border: '1px solid #ddd',
-  textAlign: 'left',
-  backgroundColor: '#f9f9f9'
-};
-
-const tdStyle = {
-  padding: '8px',
-  border: '1px solid #ddd',
-  verticalAlign: 'top'
 };
 
 export default Gwas;

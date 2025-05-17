@@ -195,12 +195,36 @@ const Filtrate = () => {
         style={{ display: 'none' }}
       />
 
-      <FloatButton.Group shape="circle" style={{ insetInlineEnd: 24, marginBottom: 12 }}>
-        <FloatButton icon={<FileTextOutlined />} onClick={handleFileInputClick} tooltip="Загрузить TSV-файл" disabled={loading} />
-        <FloatButton icon={<DownloadOutlined />} onClick={handleDownload} tooltip="Скачать гены с сервера" disabled={!csvUrl || loading} />
-        <FloatButton icon={<DownloadOutlined />} onClick={handleFilteredDownload} tooltip="Скачать таблицу с фильтрацией" disabled={!tableData.length || loading} />
-        <FloatButton icon={<QuestionCircleOutlined />} type="primary" tooltip="Загрузите .tsv-файл для фильтрации" />
-      </FloatButton.Group>
+        <FloatButton.Group shape="circle" style={{ insetInlineEnd: 24, marginBottom: 12 }}>
+          <FloatButton
+            icon={<FileTextOutlined />}
+            onClick={handleFileInputClick}
+            tooltip="Загрузить TSV-файл"
+            disabled={loading}
+            style={{ border: '2px solid #8707ff', color: '#8707ff', backgroundColor: 'transparent' }}
+          />
+          <FloatButton
+            icon={<DownloadOutlined />}
+            onClick={handleDownload}
+            tooltip="Скачать гены с сервера"
+            disabled={!csvUrl || loading}
+            style={{ border: '2px solid #8707ff', color: '#8707ff', backgroundColor: 'transparent' }}
+          />
+          <FloatButton
+            icon={<DownloadOutlined />}
+            onClick={handleFilteredDownload}
+            tooltip="Скачать таблицу с фильтрацией"
+            disabled={!tableData.length || loading}
+            style={{ border: '2px solid #8707ff', color: '#8707ff', backgroundColor: 'transparent' }}
+          />
+          <FloatButton
+            icon={<QuestionCircleOutlined />}
+            type="primary"
+            tooltip="Загрузите .tsv-файл для фильтрации"
+            style={{ border: '2px solid #8707ff', color: '#8707ff', backgroundColor: 'transparent' }}
+          />
+        </FloatButton.Group>
+
 
       <div className="description-block">
         <h2>GWAS-фильтрация</h2>
@@ -218,7 +242,9 @@ const Filtrate = () => {
       {tableData.length > 0 && (
         <div style={{ marginBottom: 16 }}>
           <Dropdown overlay={menu} trigger={['click']} placement="bottomLeft">
-            <Button icon={<SettingOutlined />}>Настройка столбцов</Button>
+            <Button className="purple-button" icon={<SettingOutlined />}>
+              Настройка столбцов
+            </Button>
           </Dropdown>
         </div>
       )}
