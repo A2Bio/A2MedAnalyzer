@@ -25,7 +25,7 @@
     font-weight: 700;
     text-align: center;
     margin-bottom: 32px;
-    background: linear-gradient(90deg, #ac7ae0 0%, #d3adf7 100%); /* Светлый фиолетовый градиент */
+    background: linear-gradient(90deg, #8707ff 0%, #ac7ae0 100%); /* Светлый фиолетовый градиент */
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -203,10 +203,10 @@
   
   @keyframes titleGlow {
     from {
-      text-shadow: 0 2px 8px rgba(179, 127, 235, 0.4);
+      text-shadow: 0 2px 8px #8707ff;
     }
     to {
-      text-shadow: 0 4px 16px rgba(179, 127, 235, 0.7);
+      text-shadow: 0 4px 16px #8707ff;
     }
   } 
   
