@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/A2MedAnalyzer/static/css/main.b88baa10.css",
-    "main.js": "/A2MedAnalyzer/static/js/main.4f4ec9dd.js",
+    "main.css": "/A2MedAnalyzer/static/css/main.d6a493f5.css",
+    "main.js": "/A2MedAnalyzer/static/js/main.d05290dd.js",
     "static/js/453.8ab44547.chunk.js": "/A2MedAnalyzer/static/js/453.8ab44547.chunk.js",
     "index.html": "/A2MedAnalyzer/index.html",
-    "main.b88baa10.css.map": "/A2MedAnalyzer/static/css/main.b88baa10.css.map",
-    "main.4f4ec9dd.js.map": "/A2MedAnalyzer/static/js/main.4f4ec9dd.js.map",
+    "main.d6a493f5.css.map": "/A2MedAnalyzer/static/css/main.d6a493f5.css.map",
+    "main.d05290dd.js.map": "/A2MedAnalyzer/static/js/main.d05290dd.js.map",
     "453.8ab44547.chunk.js.map": "/A2MedAnalyzer/static/js/453.8ab44547.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.b88baa10.css",
-    "static/js/main.4f4ec9dd.js"
+    "static/css/main.d6a493f5.css",
+    "static/js/main.d05290dd.js"
   ]
 }
