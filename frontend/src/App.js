@@ -1,14 +1,15 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 import Home from './pages/Home';
 import Contacts from './pages/Contacts';
+import Gwas from './pages/Tools/Gwas';
+import Annotation from './pages/Tools/Annotation';
+import Filtrate from './pages/Tools/Filtrate';
 
 import RotatingText from './blocks/TextAnimations/RotatingText/RotatingText';
 import GooeyNav from './blocks/Components/GooeyNav/GooeyNav';
 
-import { Link } from 'react-router-dom';
-
-     // Замените href на to
+     
      const items = [
        { label: "Главная", to: "/home" }, 
        { label: "Контакты", to: "/contacts" },
@@ -17,7 +18,7 @@ import { Link } from 'react-router-dom';
 
 function App() {
   return (
-    <Router>
+    <Router basename="/A2MedAnalyzer">
       <div>
         <nav
           style={{
@@ -66,8 +67,12 @@ function App() {
 
         <div style={{ padding: '20px' }}>
           <Routes>
+            <Route path="/" element={<Navigate to="/home" />} />
             <Route path="/home" element={<Home />} />
             <Route path="/contacts" element={<Contacts />} />
+            <Route path="/gwas" element={<Gwas />} />
+            <Route path="/annotation" element={<Annotation />} />
+            <Route path="/filtrate" element={<Filtrate />} />
           </Routes>
         </div>
       </div>
