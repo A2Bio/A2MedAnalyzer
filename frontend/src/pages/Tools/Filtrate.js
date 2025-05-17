@@ -119,7 +119,6 @@ const Filtrate = () => {
 
   const filteredColumns = allColumns.filter(col => visibleColumns[col.dataIndex]);
 
-  // Меню с чекбоксами — показываем только если есть данные
   const menu = (
     <Menu>
       {allColumns.map(col => (
@@ -156,15 +155,6 @@ const Filtrate = () => {
         <FloatButton icon={<QuestionCircleOutlined />} type="primary" tooltip="Загрузите .tsv-файл для фильтрации" />
       </FloatButton.Group>
 
-      <div style={{ marginBottom: 16 }}>
-        {/* Показать Dropdown с меню только если есть данные */}
-        {tableData.length > 0 && (
-          <Dropdown overlay={menu} trigger={['click']} placement="bottomLeft" >
-            <Button icon={<SettingOutlined />}>Настройка столбцов</Button>
-          </Dropdown>
-        )}
-      </div>
-
       <div className="description-block">
         <h2>GWAS-исследования</h2>
         <p className="description">
@@ -177,6 +167,15 @@ const Filtrate = () => {
           <li>📥 Скачать отфильтрованный результат</li>
         </ul>
       </div>
+
+      {/* Меню с настройкой столбцов под описанием */}
+      {tableData.length > 0 && (
+        <div style={{ marginBottom: 16 }}>
+          <Dropdown overlay={menu} trigger={['click']} placement="bottomLeft" >
+            <Button icon={<SettingOutlined />}>Настройка столбцов</Button>
+          </Dropdown>
+        </div>
+      )}
 
       {tableData.length > 0 ? (
         <div className="table-container">
