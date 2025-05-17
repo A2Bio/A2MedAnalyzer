@@ -1,0 +1,25 @@
+.dna-container {
+    position: relative;
+    margin: auto;
+  }
+  
+  .dna-dot {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: rgba(79, 70, 229, 0.8);
+    box-shadow: 0 0 8px rgba(79, 70, 229, 0.6);
+    transform: translate(-50%, -50%);
+  }
+  
+  .dna-link {
+    position: absolute;
+    height: 3px;
+    background-color: rgba(96, 165, 250, 0.7);
+    border-radius: 2px;
+    box-shadow: 0 0 6px rgba(96, 165, 250, 0.5);
+    transform-origin: center center;
+    transform: translate(-50%, -50%);
+  }
+  

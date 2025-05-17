@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
+import './App.css';
 import Home from './pages/Home';
 import Contacts from './pages/Contacts';
 import Gwas from './pages/Tools/Gwas';
@@ -8,8 +9,8 @@ import Filtrate from './pages/Tools/Filtrate';
 
 import RotatingText from './blocks/TextAnimations/RotatingText/RotatingText';
 import GooeyNav from './blocks/Components/GooeyNav/GooeyNav';
+import DnaAnimation from './blocks/Components/DnaAnimation';   
 
-     
      const items = [
        { label: "Главная", to: "/home" }, 
        { label: "Контакты", to: "/contacts" },
@@ -22,13 +23,15 @@ function App() {
       <div>
         <nav
           style={{
-            padding: '30px',
+            padding: '15px',
+            maxHeight: '50px',
             borderBottom: '1px solid #ccc',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
           }}
         >
+
           <div style={{
             display: 'flex',
             alignItems: 'center',
@@ -36,6 +39,10 @@ function App() {
             fontWeight: 'bold',
             fontSize: '1.5rem',
           }}>
+            <div style={{scale:'0.5', transform: 'rotate(90deg)'}}>
+              <DnaAnimation/>
+            </div>
+
             <span>A2</span>
             <RotatingText
               texts={['Bio', 'MedAnalyzer']}
