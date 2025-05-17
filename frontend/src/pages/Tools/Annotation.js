@@ -90,7 +90,7 @@ const Annotation = () => {
 
   return (
     <div className="annotation-container">
-      <div className="description-block">
+      <div className="description-block" style={{display: 'flex', justifyContent: 'left'}}>
         <h2>
           Аннотация генов с помощью <a href="https://geneontology.org/" target="_blank" rel="noopener noreferrer">GO</a> и <a href="https://www.kegg.jp/kegg/pathway.html" target="_blank" rel="noopener noreferrer">KEGG</a>
         </h2>
