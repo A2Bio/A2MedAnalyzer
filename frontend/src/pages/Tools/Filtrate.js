@@ -156,25 +156,23 @@ const Filtrate = () => {
 
       {tableData.length > 0 ? (
           // Меню с чекбоксами для выбора столбцов
-          const menu = (
-            <Menu>
-              {allColumns.map(col => (
-                <Menu.Item key={col.key}>
-                  <Checkbox
-                    checked={visibleColumns[col.dataIndex]}
-                    onChange={() => {
-                      setVisibleColumns(prev => ({
-                        ...prev,
-                        [col.dataIndex]: !prev[col.dataIndex],
-                      }));
-                    }}
-                  >
-                    {col.title}
-                  </Checkbox>
-                </Menu.Item>
-              ))}
-            </Menu>
-          );
+          <Menu>
+            {allColumns.map(col => (
+              <Menu.Item key={col.key}>
+                <Checkbox
+                  checked={visibleColumns[col.dataIndex]}
+                  onChange={() => {
+                    setVisibleColumns(prev => ({
+                      ...prev,
+                      [col.dataIndex]: !prev[col.dataIndex],
+                    }));
+                  }}
+                >
+                  {col.title}
+                 </Checkbox>
+              </Menu.Item>
+            ))}
+         </Menu>
         <div className="table-container">
           <Table
             dataSource={tableData}
