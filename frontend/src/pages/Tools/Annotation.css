@@ -1,33 +1,25 @@
-.annotation-container {
-  max-width: 900px;
-  margin: 40px auto;
-  padding: 20px 30px;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.05);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #333;
-}
+/* Annotation.css */
 
 .description-block {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .description-block h2 {
   font-size: 28px;
   font-weight: 700;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
 
 .description-block h2 a {
   text-decoration: none;
-  border-bottom: 2px solid;
+  border-bottom: 2px solid #000000;
+  color: inherit;
   transition: border-color 0.3s;
 }
 
 .description-block .description {
-  font-size: 18px;
-  line-height: 1.5;
+  font-size: 17px;
+  line-height: 1.6;
   margin-bottom: 20px;
 }
 
@@ -36,6 +28,7 @@
   padding-left: 0;
   font-size: 16px;
   color: #555;
+  margin-bottom: 20px;
 }
 
 .features-list li {
@@ -54,22 +47,27 @@
 }
 
 .image-results {
-  margin-top: 35px;
+  margin-top: 40px;
 }
 
 .image-results h3 {
   font-size: 24px;
   font-weight: 600;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   color: #1a73e8;
 }
 
+.image-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
 .image-item {
-  margin-bottom: 30px;
-  padding: 15px;
-  background: #f9faff;
+  background-color: #f9faff;
   border-radius: 10px;
-  box-shadow: 0 0 8px rgba(26, 115, 232, 0.1);
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(26, 115, 232, 0.1);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -79,23 +77,43 @@
   font-size: 18px;
   margin-bottom: 10px;
   color: #1a73e8;
+  word-break: break-word;
 }
 
 .result-image {
-  max-width: 100%;
+  width: 100%;
   height: auto;
   border-radius: 8px;
-  margin-bottom: 10px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  margin-bottom: 12px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+}
+
+.download-button {
+  background-color: #1a73e8;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 16px;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.3s;
+}
+
+.download-button:hover {
+  background-color: #0c5cd6;
 }
 
 .no-data {
   font-size: 17px;
   color: #666;
   text-align: center;
-  margin-top: 40px;
+  margin-top: 50px;
 }
 
+/* Ant Design alert tweaks */
 .ant-alert {
   border-radius: 8px;
 }
@@ -110,10 +128,11 @@
   color: #555;
 }
 
-@media (max-width: 640px) {
+/* Responsive design */
+@media (max-width: 768px) {
   .annotation-container {
-    padding: 15px 20px;
-    margin: 20px 10px;
+    padding: 16px 20px;
+    margin: 20px 12px;
   }
 
   .description-block h2 {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Table, FloatButton, message, Dropdown, Menu, Checkbox, Button } from 'antd';
+import { Table, FloatButton, message, Dropdown, Menu, Checkbox, Button, Alert } from 'antd';
 import { FileTextOutlined, DownloadOutlined, QuestionCircleOutlined, SettingOutlined } from '@ant-design/icons';
 import './Filtrate.css';
 import Loader from '../../blocks/Components/Loaders/Loader';
@@ -201,27 +201,23 @@ const Filtrate = () => {
             onClick={handleFileInputClick}
             tooltip="Загрузить TSV-файл"
             disabled={loading}
-            style={{ border: '2px solid #8707ff', color: '#8707ff', backgroundColor: 'transparent' }}
           />
           <FloatButton
             icon={<DownloadOutlined />}
             onClick={handleDownload}
             tooltip="Скачать гены с сервера"
             disabled={!csvUrl || loading}
-            style={{ border: '2px solid #8707ff', color: '#8707ff', backgroundColor: 'transparent' }}
           />
           <FloatButton
             icon={<DownloadOutlined />}
             onClick={handleFilteredDownload}
             tooltip="Скачать таблицу с фильтрацией"
             disabled={!tableData.length || loading}
-            style={{ border: '2px solid #8707ff', color: '#8707ff', backgroundColor: 'transparent' }}
           />
           <FloatButton
             icon={<QuestionCircleOutlined />}
             type="primary"
             tooltip="Загрузите .tsv-файл для фильтрации"
-            style={{ border: '2px solid #8707ff', color: '#8707ff', backgroundColor: 'transparent' }}
           />
         </FloatButton.Group>
 
@@ -238,11 +234,20 @@ const Filtrate = () => {
           <li>📥 Скачать отфильтрованный результат</li>
         </ul>
       </div>
-
+      <div style={{display: 'flex', justifyContent: 'center'}}>
+        <Alert
+          message="Внимание"
+          description="Убедитесь, что загружаемый TSV содержит корректные данные. Файл должен быть экспортирован строго из GWAS."
+          type="warning"
+          showIcon
+          style={{ marginTop: 24, marginBottom: 30}}
+        />
+        {loading && <Loader />}
+      </div>
       {tableData.length > 0 && (
         <div style={{ marginBottom: 16 }}>
           <Dropdown overlay={menu} trigger={['click']} placement="bottomLeft">
-            <Button className="purple-button" icon={<SettingOutlined />}>
+            <Button icon={<SettingOutlined />}>
               Настройка столбцов
             </Button>
           </Dropdown>
@@ -263,7 +268,6 @@ const Filtrate = () => {
       ) : (
         <p className="no-data">Загрузите TSV-файл для отображения результатов</p>
       )}
-      {loading && <Loader />}
     </div>
   );
 };

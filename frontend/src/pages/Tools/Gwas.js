@@ -1,7 +1,7 @@
 // Gwas.js
 import React, { useState } from 'react';
 import './Gwas.css';
-
+import Loader from '../../blocks/Components/Loaders/Loader'
 const Gwas = () => {
   const [trait, setTrait] = useState('');
   const [results, setResults] = useState([]);
@@ -71,10 +71,15 @@ const Gwas = () => {
           placeholder="Введите признак (например, obesity)"
         />
         <button type="submit" disabled={loading} className="custom-button">
-          {loading ? 'Загрузка...' : 'Поиск'}
+          Поиск
         </button>
       </form>
-
+      {loading && (
+        <div style={{display:'flex', justifyContent:'center'}}>
+          <Loader/>
+        </div>
+        
+        )}
       {error && <div className="error-message">{error}</div>}
 
       {results.length > 0 && (
