@@ -1,6 +1,8 @@
 
 .description-block {
   margin-bottom: 20px;
+  display: flex;
+  text-align: left;
 }
 
 .features-list {
