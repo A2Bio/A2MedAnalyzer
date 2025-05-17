@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Table, FloatButton, message, Dropdown, Menu, Checkbox, Button } from 'antd';
 import { FileTextOutlined, DownloadOutlined, QuestionCircleOutlined, SettingOutlined } from '@ant-design/icons';
 import './Filtrate.css';
+import Loader from '../../blocks/Components/Loaders/Loader';
 
 const Filtrate = () => {
   const [tableData, setTableData] = useState([]);
@@ -181,7 +182,9 @@ const Filtrate = () => {
       ))}
     </Menu>
   );
-
+  if (loading) {
+    return <Loader />;
+  }
   return (
     <div className="filtration-container">
       <input

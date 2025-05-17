@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { FloatButton, message } from 'antd';
+import { FloatButton, message, Alert } from 'antd';
 import { FileTextOutlined, DownloadOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import './Annotation.css';
+import Loader from '../../blocks/Components/Loaders/Loader';
 
 const Annotation = () => {
   const [imageUrls, setImageUrls] = useState([]);
@@ -117,9 +118,34 @@ const Annotation = () => {
   console.log('Текущее состояние imageUrls:', imageUrls);
   console.log('Состояние loading:', loading);
 
+  if (loading) {
+    return <Loader />;
+  }
   return (
     <div className="annotation-container">
-      <h2>Аннотация</h2>
+      <div className="description-block">
+        <h2>
+          Аннотация генов по <a href="https://geneontology.org/" target="_blank" rel="noopener noreferrer">GO</a> и <a href="https://www.kegg.jp/kegg/pathway.html" target="_blank" rel="noopener noreferrer">KEGG</a>
+        </h2>
+        <p className="description">
+          Здесь вы можете загрузить CSV-файл с результатами дифференциальной экспрессии генов, чтобы получить автоматическую аннотацию с помощью GO (Gene Ontology) и KEGG (Kyoto Encyclopedia of Genes and Genomes) анализов.
+        </p>
+        <p className="description">
+          После загрузки:
+        </p>
+        <ul className="features-list">
+          <li>🔍 Ваш файл будет обработан сервером</li>
+          <li>📊 В течение нескольких секунд вы получите наглядные графики, отражающие обогащённые биологические процессы, клеточные компоненты, молекулярные функции и пути.</li>
+        </ul>
+
+        <Alert
+          message="Примечание"
+          description="Убедитесь, что файл содержит корректные данные — .csv файл с названиями генов."
+          type="warning"
+          showIcon
+          style={{ marginTop: 24 }}
+        />
+      </div>
       <input
         type="file"
         id="file-input"
