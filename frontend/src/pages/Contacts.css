@@ -1,0 +1,258 @@
+.contacts-container {
+  position: relative;
+  min-height: 100vh;
+  background: #f9fbfe; /* Исходный светло-серый фон */
+  padding: 40px 20px;
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow: hidden;
+}
+
+/* Контент */
+.contacts-content {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 48px;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 1s ease-out;
+}
+/* Заголовок(тень) */
+.title {
+  font-size: 3.2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 32px;
+  background: linear-gradient(90deg, #ac7ae0 0%, #d3adf7 100%); /* Светлый фиолетовый градиент */
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 2px 8px rgba(104, 61, 148, 0.4);
+  animation: titleGlow 2s infinite alternate;
+}
+ 
+/* Описание */
+.description {
+  font-size: 1.2rem;
+  color: #666666;
+  margin-bottom: 48px;
+  line-height: 1.8;
+  text-align: center;
+}
+
+/* Команда */
+.team-section {
+  margin-bottom: 64px;
+}
+
+.team-title {
+  font-size: 2rem;
+  color: #333333;
+  margin-bottom: 32px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 32px;
+}
+
+.team-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px;
+  background: #fafafa;
+  border-radius: 12px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.team-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+/* Аватар */
+.team-photo {
+  margin-bottom: 16px;
+  border: 3px solid #0077b6;
+  border-radius: 50%;
+  transition: transform 0.4s, box-shadow 0.4s;
+  position: relative;
+}
+
+.team-photo:hover {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 0 16px rgba(0, 119, 182, 0.5);
+}
+
+.team-photo::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  background: #00a6d6;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: particleOrbit 3s infinite linear;
+  opacity: 0.7;
+}
+
+/* Имя и роль */
+.team-name {
+  font-size: 1.5rem;
+  color: #333333;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.team-role {
+  font-size: 1rem;
+  color: #666666;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+/* Кнопка Telegram в карточке */
+.team-telegram {
+  background: linear-gradient(90deg, #0077b6 0%, #00a6d6 100%);
+  border: none;
+  padding: 10px 24px;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.team-telegram:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 119, 182, 0.4);
+}
+
+.team-telegram .telegram-icon {
+  font-size: 1.3rem;
+  margin-right: 8px;
+  transition: transform 0.3s;
+}
+
+.team-telegram:hover .telegram-icon {
+  transform: scale(1.2) rotate(10deg);
+}
+
+/* Сообщество */
+.community-section {
+  text-align: center;
+}
+
+.community-title {
+  font-size: 2rem;
+  color: #333333;
+  margin-bottom: 32px;
+  font-weight: 600;
+}
+
+/* Кнопки сообщества */
+.contact-links {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
+
+.contact-button {
+  font-size: 1.1rem;
+  padding: 12px 32px;
+  border-radius: 8px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.contact-button:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.github {
+  background: #333333;
+  border-color: #333333;
+  color: #ffffff;
+  padding: 12px 50px; /* Увеличенный padding для большей ширины */
+  min-width: 160px; /* Минимальная ширина */
+}
+
+.github:hover {
+  background: #4a4a4a;
+  border-color: #4a4a4a;
+}
+
+.github .github-icon {
+  font-size: 1.4rem;
+  margin-right: 8px;
+  transition: transform 0.3s;
+}
+
+.github:hover .github-icon {
+  transform: scale(1.2);
+}
+
+/* Анимации */
+
+@keyframes titleGlow {
+  from {
+    text-shadow: 0 2px 8px rgba(179, 127, 235, 0.4);
+  }
+  to {
+    text-shadow: 0 4px 16px rgba(179, 127, 235, 0.7);
+  }
+} 
+
+/* Анимация в аватаре */
+@keyframes particleOrbit {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg) translateX(60px) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg) translateX(60px) rotate(-360deg);
+  }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .contacts-content {
+    padding: 32px;
+  }
+
+  .title {
+    font-size: 2.4rem;
+  }
+
+  .description {
+    font-size: 1rem;
+  }
+
+  .team-title,
+  .community-title {
+    font-size: 1.6rem;
+  }
+
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-links {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .contact-button {
+    width: 100%;
+  }
+
+  .github {
+    min-width: 100%;
+  }
+}
