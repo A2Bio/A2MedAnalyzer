@@ -142,7 +142,6 @@ const Annotation = () => {
           showIcon
           style={{ marginTop: 24 }}
         />
-        {loading && <Loader />}
       </div>
 
       <input
@@ -190,6 +189,7 @@ const Annotation = () => {
       ) : (
         <p className="no-data">Загрузите CSV-файл для аннотации</p>
       )}
+      {loading && <Loader />}
     </div>
   );
 };

@@ -237,6 +237,7 @@ const Filtrate = () => {
       ) : (
         <p className="no-data">Загрузите TSV-файл для отображения результатов</p>
       )}
+      {loading && <Loader />}
     </div>
   );
 };
