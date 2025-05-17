@@ -43,7 +43,6 @@
 }
 
 .image-item {
-  max-height: 400px;
   background-color: #f9faff;
   border-radius: 10px;
   padding: 16px;
@@ -56,10 +55,13 @@
 .result-image {
   width: 100%;
   height: auto;
+  max-height: 500px; 
   border-radius: 8px;
   margin-bottom: 12px;
+  object-fit: contain; 
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
 }
+
 
 .no-data {
   font-size: 17px;
