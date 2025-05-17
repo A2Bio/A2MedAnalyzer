@@ -1,6 +1,6 @@
 from django.urls import path
-from . import views
+from .views import annotate
 
 urlpatterns = [
-    path('', views.test_annotation, name='test_annotation'),
+    path('', annotate, name='annotate'),  # http://localhost:8000/api/annotation/
 ]

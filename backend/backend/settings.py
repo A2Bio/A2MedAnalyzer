@@ -121,6 +121,19 @@ CORS_ALLOWED_ORIGINS = [
     'https://a2bio.github.io'
 ]
 
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+    'cache-control',  # Добавляем cache-control
+]
+
 CSRF_TRUSTED_ORIGINS = [
     'https://a2medanalyzer.onrender.com',
     'https://a2bio.github.io',
