@@ -70,6 +70,49 @@ const Filtrate = () => {
     }
   };
 
+  const handleFilteredDownload = () => {
+    if (!tableData.length) {
+      message.info('Нет данных для загрузки');
+      return;
+    }
+
+    const filtered = tableData.map(row => {
+      const visibleRow = {};
+      Object.keys(visibleColumns).forEach(key => {
+        if (visibleColumns[key]) {
+          visibleRow[key] = row[key];
+        }
+      });
+      return visibleRow;
+    });
+
+    const csvContent = convertToCSV(filtered);
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'filtered_table.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const convertToCSV = (data) => {
+    if (!data.length) return '';
+    const headers = Object.keys(data[0]);
+    const csvRows = [headers.join(',')];
+
+    for (const row of data) {
+      const values = headers.map(header =>
+        `"${(row[header] ?? '').toString().replace(/"/g, '""')}"`
+      );
+      csvRows.push(values.join(','));
+    }
+
+    return csvRows.join('\n');
+  };
+
   const generateFilters = (dataIndex) => {
     const uniqueValues = [...new Set(tableData.map(item => item[dataIndex]))].filter(Boolean);
     return uniqueValues.map(val => ({ text: val, value: val }));
@@ -151,7 +194,8 @@ const Filtrate = () => {
 
       <FloatButton.Group shape="circle" style={{ insetInlineEnd: 24, marginBottom: 12 }}>
         <FloatButton icon={<FileTextOutlined />} onClick={handleFileInputClick} tooltip="Загрузить TSV-файл" disabled={loading} />
-        <FloatButton icon={<DownloadOutlined />} onClick={handleDownload} tooltip="Скачать гены" disabled={!csvUrl || loading} />
+        <FloatButton icon={<DownloadOutlined />} onClick={handleDownload} tooltip="Скачать гены с сервера" disabled={!csvUrl || loading} />
+        <FloatButton icon={<DownloadOutlined />} onClick={handleFilteredDownload} tooltip="Скачать таблицу с фильтрацией" disabled={!tableData.length || loading} />
         <FloatButton icon={<QuestionCircleOutlined />} type="primary" tooltip="Загрузите .tsv-файл для фильтрации" />
       </FloatButton.Group>
 
@@ -168,10 +212,9 @@ const Filtrate = () => {
         </ul>
       </div>
 
-      {/* Меню с настройкой столбцов под описанием */}
       {tableData.length > 0 && (
         <div style={{ marginBottom: 16 }}>
-          <Dropdown overlay={menu} trigger={['click']} placement="bottomLeft" >
+          <Dropdown overlay={menu} trigger={['click']} placement="bottomLeft">
             <Button icon={<SettingOutlined />}>Настройка столбцов</Button>
           </Dropdown>
         </div>
