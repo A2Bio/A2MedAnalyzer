@@ -118,9 +118,6 @@ const Annotation = () => {
   console.log('Текущее состояние imageUrls:', imageUrls);
   console.log('Состояние loading:', loading);
 
-  if (loading) {
-    return <Loader />;
-  }
   return (
     <div className="annotation-container">
       <div className="description-block">
@@ -145,7 +142,9 @@ const Annotation = () => {
           showIcon
           style={{ marginTop: 24 }}
         />
+        {loading && <Loader />}
       </div>
+
       <input
         type="file"
         id="file-input"
