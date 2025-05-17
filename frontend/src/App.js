@@ -9,7 +9,7 @@ import Filtrate from './pages/Tools/Filtrate';
 
 import RotatingText from './blocks/TextAnimations/RotatingText/RotatingText';
 import GooeyNav from './blocks/Components/GooeyNav/GooeyNav';
-import DnaAnimation from './blocks/Components/DnaAnimation';   
+import DnaAnimation from './blocks/Components/DnaAnimation/DnaAnimation';   
 
      const items = [
        { label: "Главная", to: "/home" }, 
