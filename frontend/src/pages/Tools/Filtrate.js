@@ -155,7 +155,8 @@ const Filtrate = () => {
       </div>
 
       {tableData.length > 0 ? (
-          // Меню с чекбоксами для выбора столбцов
+        <>
+          {/* Меню с чекбоксами для выбора столбцов */}
           <Menu>
             {allColumns.map(col => (
               <Menu.Item key={col.key}>
@@ -169,20 +170,21 @@ const Filtrate = () => {
                   }}
                 >
                   {col.title}
-                 </Checkbox>
+                </Checkbox>
               </Menu.Item>
             ))}
-         </Menu>
-        <div className="table-container">
-          <Table
-            dataSource={tableData}
-            columns={filteredColumns}
-            rowKey={(record, index) => index}
-            bordered
-            pagination={{ pageSize: 10 }}
-            loading={loading}
-          />
-        </div>
+          </Menu>
+          <div className="table-container">
+            <Table
+              dataSource={tableData}
+              columns={filteredColumns}
+              rowKey={(record, index) => index}
+              bordered
+              pagination={{ pageSize: 10 }}
+              loading={loading}
+            />
+          </div>
+        </>
       ) : (
         <p className="no-data">Загрузите TSV-файл для отображения результатов</p>
       )}
