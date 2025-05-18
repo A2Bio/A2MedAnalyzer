@@ -113,7 +113,7 @@ const Annotation = () => {
           style={{ marginTop: 24 }}
         />
         {loading && (
-          <div style={{height:'50px', margin:'20px 20px 20px 20px'}}> <Loader /> </div>
+          <div style={{margin:'20px 20px 20px 20px'}}> <Loader /> </div>
           )}
       </div>
       <input

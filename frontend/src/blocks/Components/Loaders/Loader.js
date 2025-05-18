@@ -30,8 +30,8 @@ const StyledWrapper = styled.div`
     --front-color: #4f29f0;
     --back-color: #c3c8de;
     --text-color: #414856;
-    width: 64px;
-    height: 64px;
+    width: 48px;
+    height: 48px;
     border-radius: 50px;
     position: relative;
     display: flex;
