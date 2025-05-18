@@ -2,8 +2,8 @@ import React from 'react';
 import { Button, message, Avatar } from 'antd';
 import { GithubOutlined, SendOutlined } from '@ant-design/icons';
 import './Contacts.css';
-import Alina from '../blocks/images/Alina.jpg';
-import Lina from '../blocks/images/Lina.jpg';
+import Alina from 'frontend/src/blocks/images/Алина.jpg';
+import Lina from 'frontend/src/blocks/images/Лина.jpg';
 
 const Contacts = () => {
   const handleLinkClick = (platform) => {
