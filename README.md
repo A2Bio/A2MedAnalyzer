@@ -197,7 +197,7 @@ a2medanalyzer-backend/
 ├── requirements.txt
 ├── README.md
 ├── manage.py
-
+ 
 ### Требования
 - Python 3.8+ и `pip`.
 - Git.
