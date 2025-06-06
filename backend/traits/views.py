@@ -26,16 +26,6 @@ def studies_by_disease_trait(request, trait):
 
     result_json = r.json()
 
-    # Проверяем параметр ?download=true
-    download = request.GET.get('download', '').lower() == 'true'
-    if download:
-        response = HttpResponse(
-            json.dumps(result_json, indent=2),
-            content_type='application/json'
-        )
-        response['Content-Disposition'] = f'attachment; filename="{trait}_studies.json"'
-        return response
-    else:
-        return JsonResponse(result_json, safe=False)
+    return JsonResponse(result_json, safe=False)
 
 
