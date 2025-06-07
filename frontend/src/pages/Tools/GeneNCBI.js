@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import './GeneNCBI.css';
 
+const API_URL = process.env.NODE_ENV === 'production'
+  ? 'https://your-production-url.com/api/ncbi_gene_info/'
+  : 'http://localhost:8000/api/ncbi_gene_info/';
+
 const GeneNCBI = () => {
   const [input, setInput] = useState("");
   const [genes, setGenes] = useState([]);
@@ -11,7 +15,7 @@ const GeneNCBI = () => {
   const fetchGeneInfo = async () => {
     const geneList = input
       .split(/[\s,]+/)
-      .map((g) => g.trim())
+      .map(g => g.trim())
       .filter(Boolean);
 
     if (geneList.length === 0) {
@@ -22,9 +26,10 @@ const GeneNCBI = () => {
     setLoading(true);
     setError("");
     setGenes([]);
+    setExpandedIdx(null);
 
     try {
-      const response = await fetch("http://localhost:8000/api/ncbi_gene_info/", {
+      const response = await fetch(API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -32,11 +37,13 @@ const GeneNCBI = () => {
         body: JSON.stringify({ genes: geneList }),
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        throw new Error("Ошибка при запросе к API");
+        // Сервер вернул ошибку в JSON
+        throw new Error(data.message || 'Ошибка при запросе к API');
       }
 
-      const data = await response.json();
       setGenes(data.results || []);
     } catch (err) {
       setError("Ошибка при получении данных: " + err.message);
@@ -54,14 +61,14 @@ const GeneNCBI = () => {
         rows={4}
         placeholder="Введите гены через запятую или пробел (например, TP53, BRCA1)"
         value={input}
-        onChange={(e) => setInput(e.target.value)}
+        onChange={e => setInput(e.target.value)}
+        disabled={loading}
       />
 
-      <button onClick={fetchGeneInfo} className="gene-button">
-        Найти
+      <button onClick={fetchGeneInfo} className="gene-button" disabled={loading}>
+        {loading ? "Загрузка..." : "Найти"}
       </button>
 
-      {loading && <p className="gene-loading">Загрузка...</p>}
       {error && <p className="gene-error">{error}</p>}
 
       {genes.length > 0 && (
@@ -92,14 +99,18 @@ const GeneNCBI = () => {
                     <td>{gene.organism?.scientificname || "—"}</td>
                     <td>{gene.genomicinfo?.[0]?.chraccver || "—"}</td>
                     <td>
-                      <a
-                        href={`https://www.ncbi.nlm.nih.gov/gene/${gene.uid}`}
-                        className="gene-link"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Перейти
-                      </a>
+                      {gene.uid ? (
+                        <a
+                          href={`https://www.ncbi.nlm.nih.gov/gene/${gene.uid}`}
+                          className="gene-link"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Перейти
+                        </a>
+                      ) : (
+                        "—"
+                      )}
                     </td>
                     <td>
                       <button
@@ -121,7 +132,7 @@ const GeneNCBI = () => {
                             <p><strong>🧬 Сводка:</strong> {gene.summary || "Нет данных."}</p>
                             <p><strong>🧬 Синонимы:</strong> {gene.otheraliases || "—"}</p>
                             <p><strong>📘 Другие обозначения:</strong> {gene.otherdesignations || "—"}</p>
-                            <p><strong>📚 MIM:</strong> {(gene.mim || []).join(', ') || "—"}</p>
+                            <p><strong>📚 MIM:</strong> {(Array.isArray(gene.mim) ? gene.mim.join(', ') : gene.mim) || "—"}</p>
                           </div>
 
                           <div className="gene-json">

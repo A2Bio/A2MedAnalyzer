@@ -1,0 +1,27 @@
+Source,Target
+Ovarian steroidogenesis,INSR
+Ovarian steroidogenesis,FSHR
+Ovarian steroidogenesis,ADCY5
+INSR,Longevity regulating pathway
+INSR,cGMP-PKG signaling pathway
+INSR,Regulation of lipolysis in adipocytes
+INSR,MAPK signaling pathway
+INSR,AMPK signaling pathway
+INSR,Phospholipase D signaling pathway
+FSHR,cAMP signaling pathway
+ADCY5,Longevity regulating pathway
+ADCY5,cGMP-PKG signaling pathway
+ADCY5,Regulation of lipolysis in adipocytes
+ADCY5,cAMP signaling pathway
+ADCY5,Phospholipase D signaling pathway
+Longevity regulating pathway,PPARG
+PPARG,Transcriptional misregulation in cancer
+PPARG,AMPK signaling pathway
+cGMP-PKG signaling pathway,GATA4
+Transcriptional misregulation in cancer,ZBTB16
+Transcriptional misregulation in cancer,HMGA2
+cAMP signaling pathway,GIPR
+ErbB signaling pathway,ERBB3
+ErbB signaling pathway,ERBB4
+ERBB3,MAPK signaling pathway
+ERBB4,MAPK signaling pathway
