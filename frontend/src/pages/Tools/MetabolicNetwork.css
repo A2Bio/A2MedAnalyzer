@@ -1,0 +1,67 @@
+.network-wrapper {
+  padding: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+}
+
+.network-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.network-input {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 2px solid #8707ff;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.network-button {
+  background-color: #8707ff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.network-button:hover {
+  background-color: #6e05d9;
+}
+
+.network-loading,
+.network-error {
+  margin-top: 1rem;
+  font-size: 14px;
+  text-align: center;
+}
+
+.network-error {
+  color: red;
+}
+
+.network-result {
+  margin-top: 2rem;
+  overflow-x: auto;
+}
+
+.network-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.network-table th,
+.network-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.network-table th {
+  background-color: #f2f2f2;
+}

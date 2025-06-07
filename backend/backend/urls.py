@@ -9,7 +9,11 @@ urlpatterns = [
     path('api/traits/', include('traits.urls')),
     path('api/annotation/', include('annotation.urls')),
     path('api/filtrate/', include('filtrate.urls')),
+    #path('api/miRNAenrichment/', include('miRNA_enrichment.urls')),
+    path('api/ncbi_gene_info/', include('ncbi.urls'))
+
 ]
+
 
 # Обслуживание медиафайлов
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
