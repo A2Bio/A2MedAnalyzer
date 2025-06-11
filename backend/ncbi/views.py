@@ -1,5 +1,3 @@
-# ncbi/views.py
-
 import requests
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -9,14 +7,14 @@ import json
 @csrf_exempt
 def ncbi_gene_info(request):
     if request.method != 'POST':
-        return JsonResponse({'error': 'Метод не разрешён'}, status=405)
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
 
     try:
         data = json.loads(request.body)
         gene_symbols = data.get("genes", [])
 
         if not gene_symbols:
-            return JsonResponse({'error': 'Нет переданных генов'}, status=400)
+            return JsonResponse({'error': 'No genes passed on'}, status=400)
 
         results = []
 
@@ -40,7 +38,7 @@ def ncbi_gene_info(request):
             id_list = search_data.get("esearchresult", {}).get("idlist", [])
 
             if not id_list:
-                results.append({"symbol": symbol, "error": "Ген не найден"})
+                results.append({"symbol": symbol, "error": "Gene not found"})
                 continue
 
             gene_id = id_list[0]
@@ -59,7 +57,7 @@ def ncbi_gene_info(request):
             doc = summary_data.get("result", {}).get(gene_id)
 
             if not doc:
-                results.append({"symbol": symbol, "error": "Нет данных в summary"})
+                results.append({"symbol": symbol, "error": "No data in summary"})
                 continue
 
             # Возвращаем всю сырую структуру doc + кэшируем
