@@ -16,7 +16,7 @@ def filtrate(request):
             if not all(col in excel_data.columns for col in required_columns):
                 return JsonResponse({
                     'status': 'error',
-                    'message': 'TSV-файл должен содержать столбцы: ' + ', '.join(required_columns),
+                    'message': 'The TSV file must contain the following columns: ' + ', '.join(required_columns),
                 }, status=400)
 
             excel_data['mappedGenes'] = excel_data['mappedGenes'].str.split(',').str[0]
@@ -37,6 +37,8 @@ def filtrate(request):
             csv_buffer = StringIO()
             genes_to_save.to_csv(csv_buffer, index=False, quoting=1)
             csv_file_path = 'extracted_genes.csv'
+            if default_storage.exists(csv_file_path):
+                default_storage.delete(csv_file_path)
             default_storage.save(csv_file_path, ContentFile(csv_buffer.getvalue().encode('utf-8')))
 
             csv_url = request.build_absolute_uri(default_storage.url(csv_file_path))
@@ -55,5 +57,5 @@ def filtrate(request):
 
     return JsonResponse({
         'status': 'error',
-        'message': 'Неверный запрос или файл не предоставлен',
+        'message': 'Invalid request or file not provided',
     }, status=400)
