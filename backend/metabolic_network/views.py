@@ -22,7 +22,7 @@ def metabolic_network(request):
             if csv_file.size > 10 * 1024 * 1024:  # 10 МБ
                 return JsonResponse({
                     'status': 'error',
-                    'message': 'Файл слишком большой. Максимум 10 МБ.'
+                    'message': 'File is too big. Maximum 10 MB.'
                 }, status=400)
 
             # Чтение CSV
@@ -35,7 +35,7 @@ def metabolic_network(request):
             if 'mappedGenes' not in gene_table.columns:
                 return JsonResponse({
                     'status': 'error',
-                    'message': 'CSV должен содержать столбец "mappedGenes"'
+                    'message': 'CSV must contain a column called "mappedGenes"'
                 }, status=400)
 
             # Извлечение списка генов
@@ -43,7 +43,7 @@ def metabolic_network(request):
             if not gene_list:
                 return JsonResponse({
                     'status': 'error',
-                    'message': 'Список генов пуст'
+                    'message': 'Gene list is empty'
                 }, status=400)
 
             # Анализ KEGG с gseapy.enrichr
@@ -60,7 +60,7 @@ def metabolic_network(request):
             if enr_results.empty:
                 return JsonResponse({
                     'status': 'error',
-                    'message': 'Нет значимых результатов обогащения KEGG'
+                    'message': 'No significant KEGG enrichment results'
                 }, status=400)
 
             # Сопоставление foldChange из KEGG (используем Odds Ratio)
@@ -145,10 +145,10 @@ def metabolic_network(request):
             plot_path = f'metabolic_network_{plot_uuid}.html'
             for old_plot in glob.glob('metabolic_network_*.html'):
                 default_storage.delete(old_plot)
-                logger.info(f"Удалён старый файл: {old_plot}")
+                logger.info(f"Old file removed: {old_plot}")
             default_storage.save(plot_path, ContentFile(fig.to_html().encode('utf-8')))
             plot_url = request.build_absolute_uri(default_storage.url(plot_path))
-            logger.info(f"Сеть сохранена: {plot_path}")
+            logger.info(f"Network saved: {plot_path}")
 
             # Сохранение данных сети как CSV и удаление старого
             edges_df = pd.DataFrame(G.edges(), columns=['Source', 'Target'])
@@ -157,20 +157,20 @@ def metabolic_network(request):
             csv_path = f'metabolic_network_edges_{plot_uuid}.csv'
             for old_csv in glob.glob('metabolic_network_edges_*.csv'):
                 default_storage.delete(old_csv)
-                logger.info(f"Удалён старый CSV: {old_csv}")
+                logger.info(f"Old CSV removed: {old_csv}")
             default_storage.save(csv_path, ContentFile(csv_buffer.getvalue().encode('utf-8')))
             csv_url = request.build_absolute_uri(default_storage.url(csv_path))
-            logger.info(f"CSV сохранён: {csv_path}")
+            logger.info(f"CSV saved: {csv_path}")
 
             return JsonResponse({
                 'status': 'success',
-                'message': 'Метаболическая сеть создана с foldChange из KEGG',
+                'message': 'Metabolic network created with foldChange from KEGG',
                 'plot_url': plot_url,
                 'csv_url': csv_url
             })
 
         except Exception as e:
-            logger.error(f"Ошибка: {str(e)}")
+            logger.error(f"Error: {str(e)}")
             return JsonResponse({
                 'status': 'error',
                 'message': str(e)
@@ -178,5 +178,5 @@ def metabolic_network(request):
 
     return JsonResponse({
         'status': 'error',
-        'message': 'Неверный запрос или файл не предоставлен'
+        'message': 'Invalid request or file not provided'
     }, status=400)
