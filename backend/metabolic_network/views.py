@@ -19,12 +19,7 @@ def metabolic_network(request):
         try:
             # Загрузка CSV
             csv_file = request.FILES['file']
-            if csv_file.size > 10 * 1024 * 1024:  # 10 МБ
-                return JsonResponse({
-                    'status': 'error',
-                    'message': 'File is too big. Maximum 10 MB.'
-                }, status=400)
-
+            
             # Чтение CSV
             try:
                 gene_table = pd.read_csv(csv_file, sep=',')
