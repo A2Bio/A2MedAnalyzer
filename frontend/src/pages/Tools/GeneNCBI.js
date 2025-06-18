@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './GeneNCBI.css';
 
 const API_URL = process.env.NODE_ENV === 'production'
-  ? 'https://your-production-url.com/api/ncbi_gene_info/'
+  ? 'https://a2medanalyzer.onrender.com/api/ncbi_gene_info/'
   : 'http://localhost:8000/api/ncbi_gene_info/';
 
 const GeneNCBI = () => {
