@@ -221,6 +221,6 @@ Frontend A2MedAnalyzer размещен на GitHub Pages и доступен п
 - **Мы в telegram**:
   - @gnom_genome (Ангелина)
   - @your_alin (Алина)
-**Корпоративная почта**:
+- **Корпоративная почта**:
   - kolesniko@sfedu.ru (Ангелина)
   - porotnikova@sfedu.ru (Алина)
