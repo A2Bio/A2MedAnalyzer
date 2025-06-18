@@ -20,12 +20,7 @@ def annotate(request):
         try:
             # Загрузка CSV
             csv_file = request.FILES['file']
-            if csv_file.size > 10 * 1024 * 1024:  # Ограничение 10 МБ
-                return JsonResponse({
-                    'status': 'error',
-                    'message': 'Файл слишком большой. Максимум 10 МБ.'
-                }, status=400)
-
+    
             # Чтение CSV (пробуем запятую, затем точку с запятой)
             try:
                 annotation_table = pd.read_csv(csv_file, sep=',')
@@ -37,7 +32,7 @@ def annotate(request):
             if 'mappedGenes' not in annotation_table.columns:
                 return JsonResponse({
                     'status': 'error',
-                    'message': 'CSV должен содержать столбец "mappedGenes"'
+                    'message': 'CSV must contain a column called "mappedGenes"'
                 }, status=400)
 
             # Извлечение списка генов
@@ -45,13 +40,13 @@ def annotate(request):
             if not gene_list:
                 return JsonResponse({
                     'status': 'error',
-                    'message': 'Список генов пуст'
+                    'message': 'Gene list is empty'
                 }, status=400)
 
             # Удаление старых изображений
             for old_file in glob.glob(os.path.join(settings.MEDIA_ROOT, 'annotation_*.png')):
                 default_storage.delete(old_file)
-                logger.info(f"Удалён старый файл: {old_file}")
+                logger.info(f"Old file removed: {old_file}")
 
             # Выполнение GO-анализа
             go_results = gp.enrichr(
@@ -90,7 +85,7 @@ def annotate(request):
             go_buffer.close()
             plt.close()
             go_image_url = request.build_absolute_uri(default_storage.url(go_image_path))
-            logger.info(f"GO-изображение сохранено: {go_image_path}")
+            logger.info(f"GO image saved: {go_image_path}")
 
             # Выполнение KEGG-анализа
             kegg_results = gp.enrichr(
@@ -129,12 +124,12 @@ def annotate(request):
             kegg_buffer.close()
             plt.close()
             kegg_image_url = request.build_absolute_uri(default_storage.url(kegg_image_path))
-            logger.info(f"KEGG-изображение сохранено: {kegg_image_path}")
+            logger.info(f"KEGG image saved: {kegg_image_path}")
 
             # Возврат URL изображений
             return JsonResponse({
                 'status': 'success',
-                'message': 'Анализ и генерация изображений завершены',
+                'message': 'Analysis and image generation completed',
                 'image_urls': [
                     {'name': 'go_enrichment_bubble.png', 'url': go_image_url},
                     {'name': 'kegg_enrichment_bubble.png', 'url': kegg_image_url}
@@ -142,7 +137,7 @@ def annotate(request):
             })
 
         except Exception as e:
-            logger.error(f"Ошибка обработки CSV: {str(e)}")
+            logger.error(f"Error processing CSV: {str(e)}")
             return JsonResponse({
                 'status': 'error',
                 'message': str(e)
@@ -150,5 +145,5 @@ def annotate(request):
 
     return JsonResponse({
         'status': 'error',
-        'message': 'Неверный запрос или файл не предоставлен'
+        'message': 'Invalid request or file not provided'
     }, status=400)

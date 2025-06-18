@@ -6,6 +6,8 @@ import Contacts from './pages/Contacts';
 import Gwas from './pages/Tools/Gwas';
 import Annotation from './pages/Tools/Annotation';
 import Filtrate from './pages/Tools/Filtrate';
+import GeneNCBI from './pages/Tools/GeneNCBI';
+import MetabolicNetwork from './pages/Tools/MetabolicNetwork';
 
 import RotatingText from './blocks/TextAnimations/RotatingText/RotatingText';
 import GooeyNav from './blocks/Components/GooeyNav/GooeyNav';
@@ -80,6 +82,8 @@ function App() {
             <Route path="/gwas" element={<Gwas />} />
             <Route path="/annotation" element={<Annotation />} />
             <Route path="/filtrate" element={<Filtrate />} />
+            <Route path="/gene_info" element={<GeneNCBI />} />
+            <Route path="/metabolic_network" element={<MetabolicNetwork />} />
           </Routes>
         </div>
       </div>

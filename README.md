@@ -1,213 +1,226 @@
 # Документация A2MedAnalyzer
 
-## Введение
+**A2MedAnalyzer** — это комплексный инструмент для анализа геномных и метаболических данных. Он состоит из backend API, построенного на Django, и frontend веб-сайта, размещенного на GitHub Pages. API предоставляет эндпоинты для различных биоинформатических задач, таких как получение исследований, фильтрация данных генов, выполнение анализа обогащения и визуализация метаболических сетей. Frontend предлагает удобный интерфейс для взаимодействия с этими эндпоинтами API, делая его доступным для пользователей без знаний программирования. Веб-сайт доступен по адресу [https://a2bio.github.io/A2MedAnalyzer](https://a2bio.github.io/A2MedAnalyzer). Пользователи могут выбрать использовать веб-сайт или взаимодействовать с API напрямую.
 
-**A2MedAnalyzer** — это веб-приложение для анализа генетических данных, разработанное для биоинформатиков, генетиков и исследователей. Оно предоставляет инструменты для фильтрации генетических данных, аннотации генов с анализом обогащения (GO/KEGG) и поиска исследований по заболеваниям/признакам через внешний GWAS Catalog API. Проект состоит из фронтенда (React, размещён на GitHub Pages) и бэкенда (Django REST API).
+## Документация по frontend
 
-- **Цели**:
-  - Фильтрация TSV-файлов с генами, аллелями, p-value и частотами риска.
-  - Анализ обогащения генов (GO Biological Process, KEGG Pathways) с визуализацией scatter plots.
-  - Получение данных исследований по признакам из GWAS Catalog.
-- **Технологии**:
-  - **Фронтенд**: React, GitHub Pages (`https://a2bio.github.io/A2MedAnalyzer/`).
-  - **Бэкенд**: Django, Django REST Framework, Pandas, gseapy, seaborn, matplotlib, requests.
-  - **Хранилище**: Файловая система (CSV, PNG). Возможна интеграция SQLite для метаданных.
-- **Аудитория**: Биоинформатики, разработчики, исследователи.
+Frontend A2MedAnalyzer представляет собой статический веб-сайт, который предоставляет пользовательский интерфейс для взаимодействия с API. Он включает следующие разделы:
+
+- **Traits**: Позволяет пользователям искать GWAS-исследования, связанные с определенным признаком заболевания.
+- **Filtrate**: Позволяет пользователям загружать TSV-файл для фильтрации и анализа данных генов.
+- **Annotation**: Позволяет пользователям загружать CSV-файл для выполнения анализа обогащения GO и KEGG.
+- **NCBI**: Позволяет пользователям получать информацию о генах из NCBI.
+- **Metabolic Network**: Позволяет пользователям загружать CSV-файл для построения и визуализации метаболической сети.
+
+Каждый раздел содержит формы для ввода данных, кнопки для отправки запросов и области для отображения результатов, таких как таблицы, изображения или скачиваемые файлы.
+
+Для использования frontend:
+
+1. Перейдите по адресу [https://a2bio.github.io/A2MedAnalyzer](https://a2bio.github.io/A2MedAnalyzer).
+2. Выберите нужный раздел.
+3. Следуйте инструкциям на экране для ввода данных и просмотра результатов.
+
+## Документация по API
+
+API A2MedAnalyzer предоставляет пять основных эндпоинтов для выполнения биоинформатических задач. Ниже приведено подробное описание каждого из них.
+
+### 1. `traits`
+- **Описание**: Получает исследования, связанные с определенным признаком заболевания, из GWAS API.
+- **Метод**: GET
+- **URL**: `/studies_by_disease_trait/<trait>`
+- **Параметры**:
+  - `trait` (параметр пути, строка): Признак заболевания для поиска (минимум 2 символа).
+- **Ответ**:
+  - Код `200`: JSON с данными исследований.
+  - Код `400`: JSON с ошибкой, если `trait` недействителен.
+  - Код `502/504`: JSON с ошибкой при сбое связи с API.
+- **Пример запроса**:
+  ```bash
+  curl -X GET "http://localhost:8000/studies_by_disease_trait/диабет"
+  ```
+- **Пример ответа**:
+  ```json
+  {
+    "page": {
+      "size": 20,
+      "totalElements": 50,
+      "totalPages": 3,
+      "number": 0
+    },
+    "_embedded": {
+      "studies": [
+        {
+          "id": "GCST000001",
+          "diseaseTrait": "Сахарный диабет 2 типа",
+          "pubmedId": "12345678",
+          "initialSampleSize": 10000
+        }
+      ]
+    }
+  }
+  ```
+
+### 2. `filtrate`
+- **Описание**: Фильтрует и обрабатывает TSV-файл с данными генов, генерируя таблицу и CSV-файл с подсчетами генов и частотами аллелей.
+- **Метод**: POST
+- **URL**: `/filtrate`
+- **Тело запроса**:
+  - `file` (multipart/form-data): TSV-файл с колонками `mappedGenes`, `pValue`, `riskAllele`, `riskFrequency`.
+- **Ответ**:
+  - Код `200`: JSON с данными таблицы и URL CSV.
+  - Код `400`: JSON с ошибкой, если файл недействителен или отсутствует.
+- **Пример запроса**:
+  ```bash
+  curl -X POST -F "file=@genes.tsv" http://localhost:8000/filtrate
+  ```
+- **Пример ответа**:
+  ```json
+  {
+    "status": "success",
+    "table_data": [
+      {
+        "mappedGenes": "GENE1",
+        "riskAllele": "A",
+        "riskFrequency": 0.25,
+        "Count_Genes": 3,
+        "Count_Alleles": 2
+      }
+    ],
+    "csv_url": "http://localhost:8000/media/extracted_genes.csv"
+  }
+  ```
+
+### 3. `annotation`
+- **Описание**: Выполняет анализ обогащения GO и KEGG для CSV-файла и генерирует графики в виде изображений.
+- **Метод**: POST
+- **URL**: `/annotate`
+- **Тело запроса**:
+  - `file` (multipart/form-data): CSV-файл с колонкой `mappedGenes`.
+- **Ответ**:
+  - Код `200`: JSON с URL изображений.
+  - Код `400`: JSON с ошибкой, если файл недействителен или отсутствует.
+- **Пример запроса**:
+  ```bash
+  curl -X POST -F "file=@genes.csv" http://localhost:8000/annotate
+  ```
+- **Пример ответа**:
+  ```json
+  {
+    "status": "success",
+    "message": "Анализ и генерация изображений завершены",
+    "image_urls": [
+      {"name": "go_enrichment_bubble.png", "url": "http://localhost:8000/media/annotation_go_enrichment_bubble.png"},
+      {"name": "kegg_enrichment_bubble.png", "url": "http://localhost:8000/media/annotation_kegg_enrichment_bubble.png"}
+    ]
+  }
+  ```
+
+### 4. `ncbi`
+- **Описание**: Получает информацию о генах из NCBI по списку символов генов.
+- **Метод**: POST
+- **URL**: `/ncbi_gene_info`
+- **Тело запроса** (JSON):
+  - `genes` (массив): Список символов генов (например, `["MC4R", "BRCA1"]`).
+- **Ответ**:
+  - Код `200`: JSON с данными генов или ошибками.
+  - Код `400`: JSON с ошибкой, если гены не предоставлены.
+- **Пример запроса**:
+  ```bash
+  curl -X POST -H "Content-Type: application/json" -d '{"genes": ["MC4R", "BRCA1"]}' http://localhost:8000/ncbi_gene_info
+  ```
+- **Пример ответа**:
+  ```json
+  {
+    "results": [
+      {
+        "name": "мелано кортин 4 рецептор",
+        "description": "...",
+        "location": "18q21.32"
+      },
+      {
+        "symbol": "BRCA1",
+        "error": "Ген не найден"
+      }
+    ]
+  }
+  ```
+
+### 5. `metabolic_network`
+- **Описание**: Строит и визуализирует метаболическую сеть на основе обогащения KEGG из CSV-файла, сохраняя результат как HTML и данные рёбер как CSV.
+- **Метод**: POST
+- **URL**: `/metabolic_network`
+- **Тело запроса**:
+  - `file` (multipart/form-data): CSV-файл с колонкой `mappedGenes`.
+- **Ответ**:
+  - Код `200`: JSON с URL графика и CSV.
+  - Код `400`: JSON с ошибкой, если файл недействителен или отсутствует.
+- **Пример запроса**:
+  ```bash
+  curl -X POST -F "file=@genes.csv" http://localhost:8000/metabolic_network
+  ```
+- **Пример ответа**:
+  ```json
+  {
+    "status": "success",
+    "message": "Метаболическая сеть создана с foldChange из KEGG",
+    "plot_url": "http://localhost:8000/media/metabolic_network_abcdef123456.html",
+    "csv_url": "http://localhost:8000/media/metabolic_network_edges_abcdef123456.csv"
+  }
+  ```
 
 ## Установка и настройка
-Установка бэкенда
-Клонируйте репозиторий бэкенда:
-git clone <your-backend-repo>
-cd a2medanalyzer-backend
-Установите зависимости:
-pip install -r requirements.txt
-Настройте переменные окружения в .env:
-DEBUG=True
-SECRET_KEY=your-secret-key
-MEDIA_ROOT=./media
-MEDIA_URL=/media/
-Настройте Django в settings.py:
-import os
-from pathlib import Path
-BASE_DIR = Path(__file__).resolve().parent.parent
-MEDIA_ROOT = os.getenv('MEDIA_ROOT', os.path.join(BASE_DIR, 'media'))
-MEDIA_URL = '/media/'
-CORS_ALLOWED_ORIGINS = ['https://a2bio.github.io']
-LOGGING = {
-    'version': 1,
-    'handlers': {'file': {'class': 'logging.FileHandler', 'filename': 'debug.log'}},
-    'loggers': {'': {'level': 'INFO', 'handlers': ['file']}}
-}
-Выполните миграции:
-python manage.py migrate
-Запустите сервер:
-python manage.py runserver
-Бэкенд доступен на http://localhost:8000.
-Установка фронтенда
-### Фронтенд размещён на https://a2bio.github.io/A2MedAnalyzer/. Для локальной разработки:
-Клонируйте репозиторий фронтенда:
-git clone <your-frontend-repo>
-cd a2medanalyzer-frontend
-Установите зависимости:
-npm install
-Запустите:
-npm start
-Фронтенд доступен на http://localhost:3000.
-### Архитектура API
-REST API реализован с использованием Django REST Framework и включает три основных эндпоинта:
-Эндпоинт	Метод	Описание	Входные данные	Выходные данные
-/api/filtrate	POST	Фильтрация TSV-файлов по генам и аллелям.	TSV-файл (mappedGenes, pValue, etc.)	JSON (table_data, csv_url), CSV-файл
-/api/annotate	POST	Аннотация генов с GO/KEGG-анализом и визуализацией.	CSV-файл (mappedGenes)	JSON (image_urls для PNG)
-/api/traits/{trait}	GET	Исследования по признаку из GWAS API.	Параметр trait (например, “breast+cancer”)	JSON или <trait>_studies.json
-Эндпоинт: /api/filtrate
-Описание: Фильтрует TSV-файлы, выбирая записи с pValue ≤ 5×10⁻⁸ и riskFrequency ≠ "NR". Группирует гены и аллели, удаляет дубликаты, сохраняет уникальные гены в CSV.
-Вход:
-TSV-файл с колонками: mappedGenes, pValue, riskAllele, riskFrequency.
-Пример:
-mappedGenes	pValue	riskAllele	riskFrequency
-BRCA1	1e-9	A	0.05
-TP53	2e-8	G	0.02
-Выход:
-JSON: status, table_data (таблица с генами, аллелями, частотами), csv_url (URL CSV).
-CSV: extracted_genes.csv с уникальными mappedGenes.
-Пример запроса:
-curl -X POST -F "file=@data.tsv" http://localhost:8000/api/filtrate
-Пример ответа:
-{
-  "status": "success",
-  "table_data": [
-    {"mappedGenes": "BRCA1", "riskAllele": "A", "riskFrequency": 0.05, "Count_Genes": 2, "Count_Alleles": 1}
-  ],
-  "csv_url": "http://localhost:8000/media/extracted_genes.csv"
-}
-Ошибки:
-400 Bad Request: Отсутствуют требуемые столбцы, неверный формат файла.
-Эндпоинт: /api/annotate
-Описание: Выполняет анализ обогащения (GO Biological Process, KEGG Pathways) для генов из CSV-файла с помощью gseapy. Генерирует scatter plots с seaborn, сохраняет их как PNG.
-Вход:
-CSV-файл с колонкой mappedGenes (разделители: , или ;).
-Максимальный размер файла: 10 МБ.
-Пример:
-mappedGenes
-BRCA1
-TP53
-Выход:
-JSON: status, image_urls (URL PNG-файлов: go_enrichment_bubble.png, kegg_enrichment_bubble.png).
-Пример запроса:
-curl -X POST -F "file=@genes.csv" http://localhost:8000/api/annotate
-Пример ответа:
 
-{
-  "status": "success",
-  "image_urls": [
-    {"name": "go_enrichment_bubble.png", "url": "http://localhost:8000/media/annotation_go_enrichment_bubble.png"},
-    {"name": "kegg_enrichment_bubble.png", "url": "http://localhost:8000/media/annotation_kegg_enrichment_bubble.png"}
-  ]
-}
-Ошибки:
-400 Bad Request: Отсутствует столбец mappedGenes, файл слишком большой, пустой список генов.
-Эндпоинт: /api/traits/{trait}
-Описание: Запрашивает исследования по заболеванию/признаку из GWAS Catalog API (https://www.ebi.ac.uk/gwas/rest/api). Поддерживает скачивание JSON с параметром download=true.
-Вход:
-Параметр trait (например, “breast+cancer”).
-Опционально: download=true для скачивания файла.
-Выход:
-JSON с данными исследований или файл <trait>_studies.json.
-Пример запроса:
+### API
 
-curl http://localhost:8000/api/traits/breast+cancer
+Для установки и запуска API выполните следующие шаги:
 
-Скачивание:
+1. **Клонируйте репозиторий**:
+   ```bash
+   git clone https://github.com/yourusername/A2MedAnalyzer.git
+   cd A2MedAnalyzer
+   ```
 
-curl http://localhost:8000/api/traits/breast+cancer?download=true
-Ошибки:
-400 Bad Request: trait короче 2 символов.
-502 Bad Gateway: Ошибка соединения с GWAS API.
-504 Gateway Timeout: Таймаут GWAS API.
+2. **Установите зависимости**:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-### Через фронтенд
-Перейдите на https://a2bio.github.io/A2MedAnalyzer/.
-Фильтрация: Загрузите TSV-файл, получите таблицу и CSV.
-Аннотация: Загрузите CSV с генами, просмотрите scatter plots (GO/KEGG).
-Признаки: Введите заболевание (например, “breast cancer”), скачайте данные GWAS.
-### Через API (Postman/cURL)
-Фильтрация:
-curl -X POST -F "file=@data.tsv" http://localhost:8000/api/filtrate
-Аннотация:
-curl -X POST -F "file=@genes.csv" http://localhost:8000/api/annotate
-Признаки:
-curl http://localhost:8000/api/traits/breast+cancer
-Пример фронтенд-кода (Axios)
-javascript
+3. **Настройте Django**:
+   - Отредактируйте `settings.py`, указав пути для `MEDIA_ROOT` и `MEDIA_URL` для хранения загружаемых файлов и результатов.
 
-// Фильтрация
-const formData = new FormData();
-formData.append('file', tsvFile);
-axios.post('http://localhost:8000/api/filtrate', formData)
-  .then(response => console.log(response.data.table_data));
+4. **Запустите сервер**:
+   ```bash
+   python manage.py migrate
+   python manage.py runserver
+   ```
 
-// Аннотация
-axios.post('http://localhost:8000/api/annotate', formData)
-  .then(response => console.log(response.data.image_urls));
+### Frontend
 
-// Признаки
-axios.get('http://localhost:8000/api/traits/breast+cancer')
-  .then(response => console.log(response.data));
-### Безопасность
-Валидация данных:
-Проверка столбцов TSV/CSV.
-Ограничение размера файла (10 МБ).
-Проверка длины trait (≥ 2 символа).
-Обработка ошибок:
-Возврат JSON с status: error и message (HTTP 400, 502, 504).
-Логирование:
-Ошибки и события записываются в debug.log.
-Пример:
-python
-logger.error(f"Ошибка обработки CSV: {str(e)}")
+Frontend A2MedAnalyzer размещен на GitHub Pages и доступен по адресу [https://a2bio.github.io/A2MedAnalyzer](https://a2bio.github.io/A2MedAnalyzer). Локальная установка не требуется. Однако, если вы хотите запустить его локально:
 
-### CSRF-защита:
-Отключена (@csrf_exempt) для упрощения разработки. Рекомендуется включить токены для продакшена.
-
-### Ограничения
-Отсутствует база данных; результаты хранятся в файлах (MEDIA_ROOT).
-Зависимость от внешнего GWAS API (возможны таймауты или лимиты).
-Ограничение размера входных файлов: 10 МБ.
-Локальный запуск бэкенда требует ручной настройки CORS для фронтенда.
-
-###  Структура репозитория
-
-a2medanalyzer-backend/
-├── docs/
-│   ├── api.md
-│   ├── installation.md
-│   ├── usage.md
-├── media/
-│   ├── extracted_genes.csv
-│   ├── annotation_*.png
-├── a2medanalyzer/
-│   ├── settings.py
-│   ├── urls.py
-├── filtrate/
-│   ├── views.py
-├── annotation/
-│   ├── views.py
-├── traits/
-│   ├── views.py
-├── requirements.txt
-├── README.md
-├── manage.py
- 
-### Требования
-- Python 3.8+ и `pip`.
-- Git.
-- Доступ к интернету для GWAS API (`https://www.ebi.ac.uk/gwas/rest/api`).
-- Зависимости:
+1. **Настройте API по инструкции выше**
+2. **Перейдите в папку frontend проекта A2MedAnalyzer**
+3. **Запустите сайт локально, выполнив следующие команды в терминале**:
   ```bash
-  django==4.2
-  djangorestframework==3.14
-  pandas==2.0
-  gseapy==1.0
-  seaborn==0.12
-  matplotlib==3.7
-  requests==2.31
+  cd frontend
+  npm start
+  ```
+
+## Устранение неполадок и поддержка
+
+### Общие проблемы
+
+- **Таймауты API**:
+  - Уменьшите размер входных данных или проверьте интернет-соединение. Это связано с использованием разработчиками бесплатного хостинга с ограниченной оперативной памятью.
+- **Отсутствующие зависимости**:
+  - Выполните `pip install -r requirements.txt` для установки всех необходимых библиотек.
+- **Проблемы с конфигурацией**:
+  - Проверьте настройки `MEDIA_ROOT` и `MEDIA_URL` в `settings.py`.
+    
+### **Если вы столкнулись с ошибками, которые не были описаны в этой документации, или у вас есть предложения по оптимизации web-приложения, вы можете связаться с разработчиками**:
+- **Мы в telegram**:
+  - @gnom_genome (Ангелина)
+  - @your_alin (Алина)
+- **Корпоративная почта**:
+  - kolesniko@sfedu.ru (Ангелина)
+  - porotnikova@sfedu.ru (Алина)

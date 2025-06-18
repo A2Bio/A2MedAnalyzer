@@ -56,6 +56,25 @@ const Home = () => {
             </div>
           </button>
         </Link>
+
+        <Link to="/gene_info">
+          <button>
+            <div className="tool">
+              <h2>📊 База данных NCBI</h2>
+              <p>Поиск информации о генах в базе данных NCBI.</p>
+            </div>
+          </button>
+        </Link>
+
+        <Link to="/metabolic_network">
+          <button>
+            <div className="tool">
+              <h2>📊 Метаболические сети</h2>
+              <p>Анализ и построение метаболических сетей для генов.</p>
+            </div>
+          </button>
+        </Link>
+
       </div>
 
       <footer className="mt-20 text-center text-sm text-gray-500">
